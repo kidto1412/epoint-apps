@@ -1,8 +1,8 @@
 part of 'services.dart';
 
-import 'package:e_point/models/models.dart';
+// import 'package:e_point/models/models.dart';
 
-class TeacherServices {
+class ParentServices {
   static Future<ApiReturnValue<Parent>> SignIn(
       String username, String password) async {
     await Future.delayed(Duration(microseconds: 500));

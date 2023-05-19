@@ -7,12 +7,12 @@ part 'parent_state.dart';
 
 class ParentCubit extends Cubit<ParentState> {
   ParentCubit() : super(ParentInitial());
-  Future<void> signIn(String nis, String password) async {
-    ApiReturnValue result = await UserServices.SignIn(nis, password);
+  Future<void> signIn(String username, String password) async {
+    ApiReturnValue result = await ParentServices.SignIn(username, password);
     if (result.value != null) {
       emit(ParentLoaded(result.value));
     } else {
-      emit(ParentLoadingFaield(result.value));
+      emit(ParentLoadingFaield(result.message));
     }
   }
 }

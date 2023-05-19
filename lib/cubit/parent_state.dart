@@ -17,7 +17,7 @@ class ParentLoaded extends ParentState {
   List<Object> get props => [parent];
 }
 
-class ParentLoadingFaield extends Parent {
+class ParentLoadingFaield extends ParentState {
   final String message;
   ParentLoadingFaield(this.message);
 }
