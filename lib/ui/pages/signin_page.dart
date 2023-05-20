@@ -8,11 +8,24 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool isLoading = false;
+  TextEditingController nisController = TextEditingController();
+  TextEditingController nipController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  UserType _selectedUserType = UserType.student;
+
   @override
   Widget build(BuildContext context) {
-    bool isLoading = false;
-    TextEditingController nisController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    @override
+    void dispose() {
+      // Pastikan untuk membuang controller ketika tidak diperlukan lagi
+      nisController.dispose();
+      nipController.dispose();
+      usernameController.dispose();
+      passwordController.dispose();
+      super.dispose();
+    }
 
     return GeneralPage(
       title: 'Sign In',
@@ -23,7 +36,11 @@ class _SignInPageState extends State<SignInPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'NIS',
+              _selectedUserType == UserType.student
+                  ? 'NIS'
+                  : _selectedUserType == UserType.teacher
+                      ? 'NIP'
+                      : 'Username',
               style: blackFontStyle2,
             ),
           ),
@@ -35,11 +52,19 @@ class _SignInPageState extends State<SignInPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.black)),
             child: TextField(
-              controller: nisController,
+              controller: _selectedUserType == UserType.student
+                  ? nisController
+                  : _selectedUserType == UserType.teacher
+                      ? nipController
+                      : usernameController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintStyle: greyFontStyle,
-                hintText: 'Enter your NIS',
+                hintText: _selectedUserType == UserType.student
+                    ? 'Enter your NIS'
+                    : _selectedUserType == UserType.teacher
+                        ? 'Enter your NIP'
+                        : 'Enter your Username',
               ),
             ),
           ),
@@ -68,13 +93,45 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
+          SizedBox(
+            height: 50,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Select login as:',
+                  textAlign: TextAlign.left,
+                )),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: DropdownButtonFormField<UserType>(
+              value: _selectedUserType,
+              onChanged: (UserType value) {
+                setState(() {
+                  _selectedUserType = value;
+                });
+              },
+              items: UserType.values.map((UserType userType) {
+                return DropdownMenuItem<UserType>(
+                  value: userType,
+                  child: Text(userType.toString().split('.').last),
+                );
+              }).toList(),
+            ),
+          ),
           Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 24),
               height: 45,
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
-                  ? SpinKitFadingCircle(size: 45, color: mainColor)
+                  ? loadingIndicatior
                   : RaisedButton(
                       onPressed: () {},
                       elevation: 0,
@@ -89,4 +146,10 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+}
+
+enum UserType {
+  teacher,
+  student,
+  parent,
 }
