@@ -8,3 +8,5 @@ part 'student.dart';
 part 'api_return_value.dart';
 part 'point.dart';
 part 'points.dart';
+part 'foul_category.dart';
+part 'formViolation.dart';

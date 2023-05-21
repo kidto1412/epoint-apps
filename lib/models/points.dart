@@ -6,8 +6,9 @@ class Points extends Equatable {
   final DateTime time;
   final DateTime date;
   final String description;
-  final String student_nis;
-  final String teacher_nip;
+  final Student student;
+  final Teacher teacher;
+  final Parent parent;
   final String form_of_foul_id;
   final String phoneNumber;
   final String address;
@@ -18,8 +19,9 @@ class Points extends Equatable {
       this.time,
       this.date,
       this.description,
-      this.student_nis,
-      this.teacher_nip,
+      this.student,
+      this.teacher,
+      this.parent,
       this.form_of_foul_id,
       this.phoneNumber,
       this.address});
@@ -32,8 +34,9 @@ class Points extends Equatable {
         time,
         date,
         description,
-        student_nis,
-        teacher_nip,
+        student,
+        teacher,
+        parent,
         form_of_foul_id,
         phoneNumber,
         address,

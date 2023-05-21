@@ -133,7 +133,25 @@ class _SignInPageState extends State<SignInPage> {
               child: isLoading
                   ? loadingIndicatior
                   : RaisedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        // panggil metod bloc
+                        if (_selectedUserType == UserType.student) {
+                          await context.bloc<StudentCubit>().signIn(
+                              nisController.text, passwordController.text);
+                          // jika sign in berhasil ambil state saat ini
+                          StudentState state =
+                              context.bloc<StudentCubit>().state;
+                        } else if (_selectedUserType == UserType.teacher) {
+                          await context.bloc<TeacherCubit>().signIn(
+                              nipController.text, passwordController.text);
+                        } else {
+                          await context.bloc<ParentCubit>().signIn(
+                              usernameController.text, passwordController.text);
+                        }
+                      },
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),

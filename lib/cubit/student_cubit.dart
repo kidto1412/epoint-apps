@@ -8,7 +8,7 @@ part 'student_state.dart';
 class StudentCubit extends Cubit<StudentState> {
   StudentCubit() : super(StudentInitial());
   Future<void> signIn(String nis, String password) async {
-    ApiReturnValue result = await UserServices.SignIn(nis, password);
+    ApiReturnValue result = await TeacherServices.SignIn(nis, password);
     if (result.value != null) {
       emit(StudentLoaded(result.value));
     } else {

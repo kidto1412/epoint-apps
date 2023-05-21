@@ -6,9 +6,10 @@ class Point extends Equatable {
   final DateTime time;
   final DateTime date;
   final String description;
-  final String student_nis;
-  final String teacher_nip;
-  final String form_of_foul_id;
+  final Student student;
+  final Teacher teacher;
+  final Parent parent;
+  final FormOfViolation formOfViolation;
   final String phoneNumber;
   final String address;
   // final String profile_photo_path;
@@ -18,11 +19,37 @@ class Point extends Equatable {
       this.time,
       this.date,
       this.description,
-      this.student_nis,
-      this.teacher_nip,
-      this.form_of_foul_id,
+      this.student,
+      this.teacher,
+      this.parent,
+      this.formOfViolation,
       this.phoneNumber,
       this.address});
+
+  Point copyWith(
+      {int id,
+      String name,
+      DateTime time,
+      DateTime date,
+      String description,
+      Student student,
+      Teacher teacher,
+      Parent parent,
+      FormOfViolation formOfViolation,
+      String phoneNumber,
+      String address}) {
+    return Point(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      time: time ?? this.time,
+      date: date ?? this.date,
+      description: description ?? this.description,
+      student: student ?? this.student,
+      teacher: teacher ?? this.teacher,
+      parent: parent ?? this.parent,
+      formOfViolation: formOfViolation ?? this.formOfViolation,
+    );
+  }
 
   @override
   // TODO: implement props
@@ -32,9 +59,10 @@ class Point extends Equatable {
         time,
         date,
         description,
-        student_nis,
-        teacher_nip,
-        form_of_foul_id,
+        student,
+        teacher,
+        parent,
+        formOfViolation,
         phoneNumber,
         address,
       ];
