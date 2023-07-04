@@ -26,7 +26,9 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Fahriz Dimasqy',
+              (context.bloc<StudentCubit>().state as StudentLoaded)
+                  .student
+                  .name,
               style: TextStyle(
                   color: mainColor,
                   letterSpacing: 2,
@@ -40,7 +42,10 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              '80',
+              (context.bloc<StudentCubit>().state as StudentLoaded)
+                  .student
+                  .total_point
+                  .toString(),
               style: TextStyle(
                   color: mainColor,
                   letterSpacing: 2,
@@ -58,7 +63,9 @@ class ProfilePage extends StatelessWidget {
                   width: 10,
                 ),
                 Text(
-                  '1197050037',
+                  (context.bloc<StudentCubit>().state as StudentLoaded)
+                      .student
+                      .nis,
                   style: TextStyle(
                       color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
                 ),
@@ -74,7 +81,16 @@ class ProfilePage extends StatelessWidget {
                   width: 10,
                 ),
                 Text(
-                  '12 RPL',
+                  (context.bloc<StudentCubit>().state as StudentLoaded)
+                      .student
+                      .major,
+                  style: TextStyle(
+                      color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
+                ),
+                Text(
+                  (context.bloc<StudentCubit>().state as StudentLoaded)
+                      .student
+                      .grade,
                   style: TextStyle(
                       color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
                 ),

@@ -1,13 +1,17 @@
 part of 'models.dart';
 
-class FoulCateogry extends Equatable {
+class FoulCategory extends Equatable {
   final String id;
   final String name;
 
-  FoulCateogry({
+  FoulCategory({
     this.id,
     this.name,
   });
+  factory FoulCategory.fromJson(Map<String, dynamic> data) => FoulCategory(
+        id: data['id'],
+        name: data['name'],
+      );
 
   @override
   // TODO: implement props

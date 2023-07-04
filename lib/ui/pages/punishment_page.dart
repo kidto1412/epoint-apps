@@ -12,66 +12,106 @@ class PunishmentPage extends StatefulWidget {
 class _PunishmentPageState extends State<PunishmentPage> {
   bool isLoading = false;
   TextEditingController nisController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController nipController = TextEditingController();
 
-  List listTypeOfPunishment = ["Ringan", "Sedang", "Berat"];
-  List listPunishment = [
-    "Narkoba",
-    "Kesiangan",
-    "Merokok",
-    "Baju Dikeluarkan",
-    "Di tindik",
-    "Membawa Alat Tajam",
-    "Gondrong"
-  ];
-  String _valTypeOfPunishhment;
-  String _valPunishment;
+  //  final categories = context.watch<FoulCategoryCubit>().state as FoulCategoryLoaded;
+
+  // final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded
+
+  List filteredViolations = [];
+  String selectedCategory;
   String valPunishment;
+  String nip;
+  String form_of_foul_id;
 
-  CameraImage cameraImage;
-  CameraController cameraController;
+  // CameraImage cameraImage;
+  // CameraController cameraController;
   String output;
 
   @override
   void initState() {
     super.initState();
-    loadCamera();
+    // loadCamera();
+    loadNip();
+    loadCurrentTime();
+    fetchFormViolations();
   }
 
-  loadCamera() {
-    // WidgetsFlutterBinding.ensureInitialized();
-    cameraController = CameraController(cameras[1], ResolutionPreset.medium);
-    cameraController.initialize().then((value) {
-      if (!mounted) {
-        return;
-      } else {
-        setState(() {
-          cameraController
-              .startImageStream((imageStream) => {cameraImage = imageStream});
-        });
-      }
+  void loadNip() {
+    final teacherState = context.read<TeacherCubit>().state;
+    if (teacherState is TeacherLoaded) {
+      final name = teacherState.teacher.name;
+      final nip = teacherState.teacher.nip;
+      nipController.text = nip;
+    }
+  }
+
+  void loadCurrentTime() {
+    DateTime currentTime = DateTime.now();
+    String formattedTime = DateFormat('HH-mm-ss').format(currentTime);
+    String formattedMinute = DateFormat('mm').format(currentTime);
+
+    setState(() {
+      timeController.text = formattedTime;
     });
   }
 
+  void getFilteredFouls() {
+    final foulsState = context.read<FormViolationCubit>().state;
+    if (foulsState is FormViolationLoaded) {
+      filteredViolations = foulsState.formv
+          .where((violation) => violation.id == selectedCategory)
+          .toList();
+    }
+  }
+
+  void fetchFormViolations() {
+    context.read<FormViolationCubit>().getFormOfViolation();
+  }
+
+  // loadCamera() {
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   cameraController = CameraController(cameras[1], ResolutionPreset.medium);
+  //   cameraController.initialize().then((value) {
+  //     if (!mounted) {
+  //       return;
+  //     } else {
+  //       setState(() {
+  //         cameraController
+  //             .startImageStream((imageStream) => {cameraImage = imageStream});
+  //       });
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final categories =
+        context.watch<FoulCategoryCubit>().state as FoulCategoryLoaded;
+    final fouls =
+        context.watch<FormViolationCubit>().state as FormViolationLoaded;
+    final teacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return GeneralPage(
       title: 'Punishment',
       subtitle: 'Add punishment for student',
       onBackButtonPressed: () {},
       child: Column(
         children: [
-          Container(
-              width: 250,
-              height: 250,
-              color: Colors.red,
-              margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
-              child: !cameraController.value.isInitialized
-                  ? Container()
-                  : AspectRatio(
-                      aspectRatio: cameraController.value.aspectRatio,
-                      child: CameraPreview(cameraController),
-                    )),
+          // Container(
+          //     width: 250,
+          //     height: 250,
+          //     color: Colors.red,
+          //     margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
+          //     child: !cameraController.value.isInitialized
+          //         ? Container()
+          //         : AspectRatio(
+          //             aspectRatio: cameraController.value.aspectRatio,
+          //             child: CameraPreview(cameraController),
+          //           )),
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
@@ -100,7 +140,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Name',
+              'Description',
               style: blackFontStyle2,
             ),
           ),
@@ -112,7 +152,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.black)),
             child: TextField(
-              controller: passwordController,
+              controller: descriptionController,
               obscureText: false,
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -124,7 +164,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Class',
+              'Teacher NIP',
               style: blackFontStyle2,
             ),
           ),
@@ -136,13 +176,84 @@ class _PunishmentPageState extends State<PunishmentPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.black)),
             child: TextField(
-              controller: passwordController,
+              controller: nipController,
               obscureText: false,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintStyle: greyFontStyle,
               ),
             ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
+            child: Text(
+              'Time',
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black)),
+            child: TextField(
+              controller: timeController,
+              obscureText: false,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintStyle: greyFontStyle,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
+            child: Text(
+              'Date',
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black)),
+            child: TextField(
+                controller: dateController,
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: greyFontStyle,
+                ),
+                onTap: () async {
+                  DateTime pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(
+                          2000), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2101));
+                  if (pickedDate != null) {
+                    print(
+                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    print(
+                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //you can implement different kind of Date Format here according to your requirement
+
+                    setState(() {
+                      dateController.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {
+                    print("Date is not selected");
+                  }
+                }),
           ),
           Container(
             width: double.infinity,
@@ -164,17 +275,21 @@ class _PunishmentPageState extends State<PunishmentPage> {
                 hint: Text("Select Punishment"),
                 underline: Container(),
                 isExpanded: true,
-                value: _valTypeOfPunishhment,
-                items: listTypeOfPunishment.map((value) {
+                value: selectedCategory,
+                items: categories.foul_categories.map((value) {
                   return DropdownMenuItem<String>(
-                    child: Text(value),
-                    value: value,
+                    child: Text(value.name),
+                    value: value.id,
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    _valTypeOfPunishhment = value;
-                    print("You selected: $_valTypeOfPunishhment");
+                    selectedCategory = value;
+                    // valPunishment = null;
+                    getFilteredFouls();
+                    print('filtered');
+                    print(filteredViolations);
+                    print("You selected: $selectedCategory");
                   });
                 },
               )),
@@ -182,7 +297,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Punishment',
+              'Select Foul',
               style: blackFontStyle2,
             ),
           ),
@@ -195,23 +310,35 @@ class _PunishmentPageState extends State<PunishmentPage> {
                   color: Colors.white,
                   border: Border.all(color: greyColor, width: 2)),
               child: DropdownButton<String>(
-                hint: Text("Select Punishment"),
-                underline: Container(),
-                isExpanded: true,
-                value: valPunishment,
-                items: listPunishment.map((value) {
-                  return DropdownMenuItem<String>(
-                    child: Text(value),
-                    value: value,
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valPunishment = value;
-                    print("You selected: $valPunishment");
-                  });
-                },
-              )),
+                  hint: Text("Select Punishment"),
+                  underline: Container(),
+                  isExpanded: true,
+                  value: valPunishment,
+                  items: fouls.formv.map((value) {
+                    return DropdownMenuItem<String>(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              value.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Divider()
+                        ],
+                      ),
+                      value: value.id,
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      valPunishment = value;
+                      print("You selected: $valPunishment");
+                    });
+                  },
+                  menuMaxHeight: 500)),
           Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 24),
@@ -220,7 +347,17 @@ class _PunishmentPageState extends State<PunishmentPage> {
               child: isLoading
                   ? SpinKitFadingCircle(size: 45, color: mainColor)
                   : RaisedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await context.bloc<FoulCubit>().submitFoul(Foul(
+                            time: timeController.text,
+                            date: dateController.text,
+                            description: descriptionController.text,
+                            student_nis: nisController.text,
+                            teacher_nip: nipController.text,
+                            form_of_foul_id: valPunishment));
+
+                        Get.to(MainPageTeacher());
+                      },
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),

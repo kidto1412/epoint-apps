@@ -1,12 +1,12 @@
 part of 'pages.dart';
 
-class HomePage extends StatelessWidget {
+class HomePageTeacher extends StatelessWidget {
   // const HomePage({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final stateStudent = context.watch<StudentCubit>().state as StudentLoaded;
-    // final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded;
+    // final stateStudent = context.watch<StudentCubit>().state as StudentLoaded;
+    final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return SafeArea(
       child: ListView(
         scrollDirection: Axis.vertical,
@@ -32,14 +32,16 @@ class HomePage extends StatelessWidget {
                             style: greyFontStyle.copyWith(
                                 fontWeight: FontWeight.w300),
                           ),
-                          Text((context.bloc<StudentCubit>().state
-                                  as StudentLoaded)
-                              .student
+                          Text((context.bloc<TeacherCubit>().state
+                                  as TeacherLoaded)
+                              .teacher
                               .name),
+
+                          // Text(stateTeacher != null ? "$stateTeacher" : '')
                         ],
                       ),
-                      if ((context.bloc<StudentCubit>().state as StudentLoaded)
-                              .student
+                      if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
+                              .teacher
                               .profile_photo_path !=
                           null)
                         Container(
@@ -49,11 +51,11 @@ class HomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<StudentCubit>().state as StudentLoaded).student.profile_photo_path}"),
+                                      "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<TeacherCubit>().state as TeacherLoaded).teacher.profile_photo_path}"),
                                   fit: BoxFit.cover)),
                         ),
-                      if ((context.bloc<StudentCubit>().state as StudentLoaded)
-                              .student
+                      if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
+                              .teacher
                               .profile_photo_path ==
                           null)
                         Container(

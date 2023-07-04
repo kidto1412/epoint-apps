@@ -144,10 +144,75 @@ class _SignInPageState extends State<SignInPage> {
                           // jika sign in berhasil ambil state saat ini
                           StudentState state =
                               context.bloc<StudentCubit>().state;
+                          if (state is StudentLoaded) {
+                            // Panggil Data Point
+                            context.bloc<StudentCubit>().GetStudents();
+                            context
+                                .bloc<FormViolationCubit>()
+                                .getFormOfViolation();
+                            Get.to(MainPage());
+                          } else {
+                            setState(() {
+                              Get.snackbar("", "",
+                                  backgroundColor: "D9435E".toColor(),
+                                  icon: Icon(
+                                    MdiIcons.closeCircleOutline,
+                                    color: Colors.white,
+                                  ),
+                                  titleText: Text(
+                                    'Sign In Failed',
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  messageText: Text(
+                                    (state as StudentLoadingFaield).message,
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                  ));
+
+                              isLoading = false;
+                            });
+                          }
                         } else if (_selectedUserType == UserType.teacher) {
                           await context.bloc<TeacherCubit>().signIn(
                               nipController.text, passwordController.text);
-                        } else {
+                          TeacherState state =
+                              context.bloc<TeacherCubit>().state;
+                          if (state is TeacherLoaded) {
+                            context
+                                .bloc<FoulCategoryCubit>()
+                                .getFoulCategories();
+                            context
+                                .bloc<FormViolationCubit>()
+                                .getFormOfViolation();
+                            context.bloc<TeacherCubit>().GetStudents();
+
+                            Get.to(MainPageTeacher());
+                          } else {
+                            setState(() {
+                              Get.snackbar("", "",
+                                  backgroundColor: "D9435E".toColor(),
+                                  icon: Icon(
+                                    MdiIcons.closeCircleOutline,
+                                    color: Colors.white,
+                                  ),
+                                  titleText: Text(
+                                    'Sign In Failed',
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  messageText: Text(
+                                    (state as TeacherLoadingFaield).message,
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                  ));
+
+                              isLoading = false;
+                            });
+                          }
+                        } else if (_selectedUserType == UserType.parent) {
                           await context.bloc<ParentCubit>().signIn(
                               usernameController.text, passwordController.text);
                         }

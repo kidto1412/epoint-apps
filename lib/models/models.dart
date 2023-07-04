@@ -10,3 +10,4 @@ part 'point.dart';
 part 'points.dart';
 part 'foul_category.dart';
 part 'formViolation.dart';
+part 'foul.dart';

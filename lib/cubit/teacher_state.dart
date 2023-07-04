@@ -11,13 +11,16 @@ class TeacherInitial extends TeacherState {}
 
 class TeacherLoaded extends TeacherState {
   final Teacher teacher;
-  TeacherLoaded(this.teacher);
+  final List<Student> students;
+  TeacherLoaded(this.teacher, this.students);
 
   @override
-  List<Object> get props => [teacher];
+  List<Object> get props => [teacher, students];
 }
 
 class TeacherLoadingFaield extends TeacherState {
   final String message;
   TeacherLoadingFaield(this.message);
+  @override
+  List<Object> get props => [message];
 }

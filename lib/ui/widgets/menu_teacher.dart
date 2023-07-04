@@ -1,6 +1,6 @@
 part of 'widgets.dart';
 
-class Menu extends StatelessWidget {
+class MenuTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

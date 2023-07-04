@@ -1,34 +1,56 @@
 part of 'pages.dart';
 
+// ignore: use_key_in_widget_constructors
 class RulesPage extends StatelessWidget {
-  final titles = ["List 1", "List 2", "List 3"];
-  final subtitles = [
-    "Here is list 1 subtitle",
-    "Here is list 2 subtitle",
-    "Here is list 3 subtitle"
-  ];
-  // const RulesPage({ Key? key }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    double listItemWidth =
+        MediaQuery.of(context).size.width - 2 * defaultMargin;
+
+    // final state =
+    //     context.watch<FormViolationCubit>().state as FormViolationLoaded;
     return GeneralPage(
       title: 'Rules',
-      subtitle: 'this is rules page',
+      subtitle: 'This is the rules page',
       onBackButtonPressed: () {},
-      child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: titles.length,
-          itemBuilder: (context, index) {
-            return Card(
-                child: ListTile(
-              title: Text(titles[index]),
-              subtitle: Text(subtitles[index]),
-              leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
-            ));
-          }),
+      child: Container(
+        width: double.infinity,
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: BlocBuilder<FormViolationCubit, FormViolationState>(
+            builder: (_, state) {
+              if (state is FormViolationLoaded) {
+                if (state.formv.isEmpty) {
+                  loadingIndicatior;
+                }
+                return Column(
+                  children: state.formv.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    FormOfViolation formViolation = entry.value;
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        defaultMargin,
+                        0,
+                        defaultMargin,
+                        16,
+                      ),
+                      child: FoulListItem(
+                        formviolation: formViolation,
+                        itemWidth: listItemWidth,
+                        itemNumber: index + 1,
+                      ),
+                    );
+                  }).toList(),
+                );
+              } else {
+                return Center(
+                  child: loadingIndicatior,
+                );
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 }
