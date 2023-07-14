@@ -7,6 +7,7 @@ class Foul extends Equatable {
   final String student_nis;
   final String teacher_nip;
   final String form_of_foul_id;
+  final FormOfViolation form;
 
   Foul(
       {this.time,
@@ -14,7 +15,8 @@ class Foul extends Equatable {
       this.description,
       this.student_nis,
       this.teacher_nip,
-      this.form_of_foul_id});
+      this.form_of_foul_id,
+      this.form});
 
   factory Foul.fromJson(Map<String, dynamic> data) => Foul(
       time: data['time'],
@@ -22,7 +24,8 @@ class Foul extends Equatable {
       description: data['description'],
       student_nis: data['student_nis'],
       teacher_nip: data['teacher_nip'],
-      form_of_foul_id: data['form_of_foul_id']);
+      form_of_foul_id: data['form_of_foul_id'],
+      form: FormOfViolation.formJson(data['form']));
 
   Foul copyWith({
     String time,
@@ -43,6 +46,13 @@ class Foul extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props =>
-      [time, date, description, student_nis, teacher_nip, form_of_foul_id];
+  List<Object> get props => [
+        time,
+        date,
+        description,
+        student_nis,
+        teacher_nip,
+        form_of_foul_id,
+        form
+      ];
 }

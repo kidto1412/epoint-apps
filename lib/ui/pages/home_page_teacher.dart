@@ -76,7 +76,7 @@ class HomePageTeacher extends StatelessWidget {
                     ],
                   ),
                 ),
-                Menu()
+                MenuTeacher()
               ],
             ),
           ),

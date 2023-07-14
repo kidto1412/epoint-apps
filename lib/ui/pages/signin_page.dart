@@ -131,7 +131,7 @@ class _SignInPageState extends State<SignInPage> {
               height: 45,
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
-                  ? loadingIndicatior
+                  ? loadingIndicator
                   : RaisedButton(
                       onPressed: () async {
                         setState(() {

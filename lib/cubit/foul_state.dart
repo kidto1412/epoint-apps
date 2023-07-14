@@ -20,4 +20,6 @@ class FoulLoaded extends FoulState {
 class FoulLoadingFaield extends FoulState {
   final String message;
   FoulLoadingFaield(this.message);
+  @override
+  List<Object> get props => [message];
 }

@@ -15,6 +15,9 @@ class _StudentsPageState extends State<StudentsPage> {
 
     return GeneralPage(
       title: 'Students Page',
+      onBackButtonPressed: () {
+        Navigator.pop(context);
+      },
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -57,7 +60,12 @@ class _StudentsPageState extends State<StudentsPage> {
                                   bottom: 16),
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(DetailStudent(student: e));
+                                  Get.to(
+                                    DetailStudent(
+                                      student: e,
+                                      fouls: e.fouls,
+                                    ),
+                                  );
                                 },
                                 child: StudentList(
                                     students: e, itemWidth: listItemWidth),
@@ -68,7 +76,7 @@ class _StudentsPageState extends State<StudentsPage> {
                     );
                   } else {
                     return Center(
-                      child: loadingIndicatior,
+                      child: loadingIndicator,
                     );
                   }
                 })),

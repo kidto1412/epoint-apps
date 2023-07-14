@@ -7,7 +7,7 @@ class StudentServices {
       client = http.Client();
     }
     String url = baseUrl + 'login-student';
-    var response = await client.post(url,
+    var response = await client.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(<String, String>{'nis': nis, 'password': password}));
 
@@ -25,7 +25,7 @@ class StudentServices {
       {http.Client client}) async {
     client ??= client = http.Client();
     String url = baseUrl + 'students';
-    var response = await client.get(url);
+    var response = await client.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 // import '../pages/rules_page.dart';
 import 'package:e_point/models/models.dart';
+import 'package:get/get.dart';
 part 'custom_bottom_bar.dart';
 part 'foul_list_item.dart';
 part 'menu.dart';
 part 'student_list.dart';
 part 'menu_teacher.dart';
+part 'custom_bottom_bar_teacher.dart';

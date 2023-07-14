@@ -28,8 +28,8 @@ class _PunishmentPageState extends State<PunishmentPage> {
   String nip;
   String form_of_foul_id;
 
-  // CameraImage cameraImage;
-  // CameraController cameraController;
+  CameraImage cameraImage;
+  CameraController cameraController;
   String output;
 
   @override
@@ -52,7 +52,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
 
   void loadCurrentTime() {
     DateTime currentTime = DateTime.now();
-    String formattedTime = DateFormat('HH-mm-ss').format(currentTime);
+    String formattedTime = DateFormat('HH:mm:ss').format(currentTime);
     String formattedMinute = DateFormat('mm').format(currentTime);
 
     setState(() {
@@ -73,20 +73,20 @@ class _PunishmentPageState extends State<PunishmentPage> {
     context.read<FormViolationCubit>().getFormOfViolation();
   }
 
-  // loadCamera() {
-  //   WidgetsFlutterBinding.ensureInitialized();
-  //   cameraController = CameraController(cameras[1], ResolutionPreset.medium);
-  //   cameraController.initialize().then((value) {
-  //     if (!mounted) {
-  //       return;
-  //     } else {
-  //       setState(() {
-  //         cameraController
-  //             .startImageStream((imageStream) => {cameraImage = imageStream});
-  //       });
-  //     }
-  //   });
-  // }
+  loadCamera() {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameraController = CameraController(cameras[1], ResolutionPreset.medium);
+    cameraController.initialize().then((value) {
+      if (!mounted) {
+        return;
+      } else {
+        setState(() {
+          cameraController
+              .startImageStream((imageStream) => {cameraImage = imageStream});
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +98,14 @@ class _PunishmentPageState extends State<PunishmentPage> {
     return GeneralPage(
       title: 'Punishment',
       subtitle: 'Add punishment for student',
-      onBackButtonPressed: () {},
+      // onBackButtonPressed: () {
+      //   Navigator.pop(context);
+      // },
       child: Column(
         children: [
           // Container(
           //     width: 250,
           //     height: 250,
-          //     color: Colors.red,
           //     margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
           //     child: !cameraController.value.isInitialized
           //         ? Container()
@@ -345,9 +346,12 @@ class _PunishmentPageState extends State<PunishmentPage> {
               height: 45,
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
-                  ? SpinKitFadingCircle(size: 45, color: mainColor)
+                  ? loadingIndicator
                   : RaisedButton(
                       onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
                         await context.bloc<FoulCubit>().submitFoul(Foul(
                             time: timeController.text,
                             date: dateController.text,
@@ -356,7 +360,51 @@ class _PunishmentPageState extends State<PunishmentPage> {
                             teacher_nip: nipController.text,
                             form_of_foul_id: valPunishment));
 
-                        Get.to(MainPageTeacher());
+                        FoulState state = context.bloc<FoulCubit>().state;
+                        // TeacherState stateTeacher =
+                        context.bloc<TeacherCubit>().state;
+                        if (state is FoulLoaded) {
+                          Get.snackbar("", "",
+                              backgroundColor: Colors.green,
+                              icon: Icon(
+                                MdiIcons.closeCircleOutline,
+                                color: Colors.white,
+                              ),
+                              titleText: Text(
+                                "Success",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              messageText: Text(
+                                'Punishment Added',
+                                style: GoogleFonts.poppins(color: Colors.white),
+                              ));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainPageTeacher()));
+                        } else {
+                          Get.snackbar("", "",
+                              backgroundColor: "D9435E".toColor(),
+                              icon: Icon(
+                                MdiIcons.closeCircleOutline,
+                                color: Colors.white,
+                              ),
+                              titleText: Text(
+                                "Failed",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              messageText: Text(
+                                (state as FoulLoadingFaield).message,
+                                style: GoogleFonts.poppins(color: Colors.white),
+                              ));
+                          setState(() {
+                            isLoading = false;
+                          });
+                        }
                       },
                       elevation: 0,
                       shape: RoundedRectangleBorder(

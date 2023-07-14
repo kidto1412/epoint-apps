@@ -12,14 +12,16 @@ class MenuTeacher extends StatelessWidget {
           Card(
             margin: EdgeInsets.all(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(VerificationPage());
+              },
               splashColor: mainColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.podcasts_sharp,
+                      Icons.note_alt,
                       size: 70,
                       color: mainColor,
                     ),
@@ -27,7 +29,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Point',
+                      'Punisment',
                       style: greyFontStyle,
                     )
                   ],
@@ -38,7 +40,9 @@ class MenuTeacher extends StatelessWidget {
           Card(
             margin: EdgeInsets.all(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(ProfileTeacherPage());
+              },
               splashColor: mainColor,
               child: Center(
                 child: Column(

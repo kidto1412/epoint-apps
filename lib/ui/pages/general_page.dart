@@ -46,7 +46,11 @@ class GeneralPage extends StatelessWidget {
                                   width: 24,
                                   height: 24,
                                   child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (onBackButtonPressed != null) {
+                                          onBackButtonPressed();
+                                        }
+                                      },
                                       icon: Icon(Icons.arrow_back)),
                                 )
                               : SizedBox(),

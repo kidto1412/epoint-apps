@@ -5,7 +5,7 @@ class FoulCategoryService {
       {http.Client client}) async {
     client ??= client = http.Client();
     String url = baseUrl + 'foul-categories';
-    var response = await client.get(url);
+    var response = await client.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');

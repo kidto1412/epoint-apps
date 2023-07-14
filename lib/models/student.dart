@@ -16,54 +16,64 @@ class Student extends Equatable {
   final int total_point;
   final String major;
   final String grade;
+  final List<dynamic> violations;
+  final List<Foul> fouls;
 
-  Student(
-      {this.id,
-      this.nis,
-      this.name,
-      this.password,
-      this.date_and_place_of_birth,
-      this.gender,
-      this.phoneNumber,
-      this.address,
-      this.profile_photo_path,
-      this.id_parent,
-      this.id_class_room,
-      this.total_point,
-      this.major,
-      this.grade});
+  Student({
+    this.id,
+    this.nis,
+    this.name,
+    this.password,
+    this.date_and_place_of_birth,
+    this.gender,
+    this.phoneNumber,
+    this.address,
+    this.profile_photo_path,
+    this.id_parent,
+    this.id_class_room,
+    this.total_point,
+    this.major,
+    this.grade,
+    this.fouls,
+    this.violations,
+  });
 
   factory Student.fromJson(Map<String, dynamic> data) => Student(
-      id: data['id'],
-      nis: data['nis'],
-      name: data['name'],
-      password: data['password'],
-      date_and_place_of_birth: data['date_and_place_of_birth'],
-      gender: data['gender'],
-      phoneNumber: data['phoneNumber'],
-      address: data['address'],
-      profile_photo_path: data['profile_photo_path'],
-      id_parent: data['id_parent'],
-      id_class_room: data['id_class_room'],
-      total_point: data['total_point'],
-      major: data['major'],
-      grade: data['class']);
+        id: data['id'],
+        nis: data['nis'],
+        name: data['name'],
+        password: data['password'],
+        date_and_place_of_birth: data['date_and_place_of_birth'],
+        gender: data['gender'],
+        phoneNumber: data['phoneNumber'],
+        address: data['address'],
+        profile_photo_path: data['profile_photo_path'],
+        id_parent: data['id_parent'],
+        id_class_room: data['id_class_room'],
+        total_point: data['total_point'],
+        major: data['major'],
+        grade: data['class'],
+        violations: List<FoulStudent>.from(
+            data['fouls'].map((x) => FoulStudent.fromJson(x))),
+      );
 
   factory Student.fromJsonList(Map<String, dynamic> data) => Student(
-      id: data['id'],
-      nis: data['nis'],
-      name: data['name'],
-      password: data['password'],
-      date_and_place_of_birth: data['date_and_place_of_birth'],
-      gender: data['gender'],
-      phoneNumber: data['phoneNumber'],
-      address: data['address'],
-      profile_photo_path: data['profile_photo_path'],
-      id_parent: data['id_parent'],
-      id_class_room: data['id_class_room'],
-      total_point: data['total_point'],
-      major: data['class']['major']['name'],
-      grade: data['class']['grade']);
+        id: data['id'],
+        nis: data['nis'],
+        name: data['name'],
+        password: data['password'],
+        date_and_place_of_birth: data['date_and_place_of_birth'],
+        gender: data['gender'],
+        phoneNumber: data['phoneNumber'],
+        address: data['address'],
+        profile_photo_path: data['profile_photo_path'],
+        id_parent: data['id_parent'],
+        id_class_room: data['id_class_room'],
+        total_point: data['total_point'],
+        major: data['class']['major']['name'],
+        grade: data['class']['grade'],
+        fouls: List<Foul>.from(data['violations'].map((x) => Foul.fromJson(x))),
+      );
 
   Student copyWith(
           {int id,
@@ -112,6 +122,8 @@ class Student extends Equatable {
         id_class_room,
         total_point,
         major,
-        grade
+        grade,
+        violations,
+        fouls
       ];
 }

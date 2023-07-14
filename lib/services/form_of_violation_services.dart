@@ -7,7 +7,7 @@ class FormViloationService {
 
     String url = baseUrl + 'form-of-foul';
 
-    var response = await client.get(url);
+    var response = await client.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       return ApiReturnValue(message: 'Please try again');

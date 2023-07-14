@@ -1,11 +1,11 @@
 part of 'widgets.dart';
 
-class CustomBottomBar extends StatelessWidget {
+class CustomBottomBarTeacher extends StatelessWidget {
   // const CustombBar({ Key? key }) : super(key: key);
   final int selectedIndex;
   final Function(int index) onTap;
 
-  CustomBottomBar({this.selectedIndex = 0, this.onTap});
+  CustomBottomBarTeacher({this.selectedIndex = 0, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +31,20 @@ class CustomBottomBar extends StatelessWidget {
                   color: selectedIndex == 0 ? mainColor : Colors.grey,
                 )),
           ),
-          // GestureDetector(
-          //   onTap: () {
-          //     if (onTap != null) {
-          //       onTap(1);
-          //     }
-          //   },
-          //   child: Container(
-          //       width: 40,
-          //       height: 40,
-          //       child: Icon(
-          //         Icons.camera,
-          //         color: selectedIndex == 1 ? mainColor : Colors.grey,
-          //       )),
-          // ),
+          GestureDetector(
+            onTap: () {
+              if (onTap != null) {
+                onTap(1);
+              }
+            },
+            child: Container(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  Icons.camera,
+                  color: selectedIndex == 1 ? mainColor : Colors.grey,
+                )),
+          ),
           GestureDetector(
             onTap: () {
               if (onTap != null) {

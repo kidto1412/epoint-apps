@@ -34,16 +34,16 @@ class _MainPageTeacherState extends State<MainPageTeacher> {
                 child: HomePageTeacher(),
               ),
               Center(
-                child: PunishmentPage(),
+                child: VerificationPage(),
               ),
               Center(
-                child: ProfilePage(),
+                child: ProfileTeacherPage(),
               ),
             ],
           )),
           Align(
             alignment: Alignment.bottomCenter,
-            child: CustomBottomBar(
+            child: CustomBottomBarTeacher(
               selectedIndex: selectedPage,
               onTap: (index) {
                 setState(() {

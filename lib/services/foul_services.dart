@@ -8,12 +8,12 @@ class FoulServices {
     }
     String url = baseUrl + 'foul';
     var response = await client.post(
-      url,
+      Uri.parse(url),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${Teacher.token}"
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'time': foul.time,
         'date': foul.date,
         'description': foul.description,
@@ -24,13 +24,14 @@ class FoulServices {
     );
 
     if (response.statusCode != 200) {
-      return ApiReturnValue(message: 'Please try again');
+      return ApiReturnValue(message: 'Failed');
     }
 
     var data = jsonDecode(response.body);
-    print('response');
-    print(response);
-    Foul value = Foul.fromJson(data['data']['data']);
+
+    Foul value = Foul.fromJson(data['data']);
+    print('foul value');
+    print(value);
     return ApiReturnValue(value: value);
   }
 }

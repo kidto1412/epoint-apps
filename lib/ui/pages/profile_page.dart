@@ -5,9 +5,15 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<FoulStudent> fouls =
+        (context.bloc<StudentCubit>().state as StudentLoaded)
+            .student
+            .violations;
     return GeneralPage(
       title: 'Profile Page',
-      onBackButtonPressed: () {},
+      onBackButtonPressed: () {
+        Navigator.pop(context);
+      },
       subtitle: 'this is your profile',
       child: Padding(
         padding: EdgeInsets.all(10.0),
@@ -96,7 +102,24 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 199)
+            SizedBox(height: 199),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: fouls.length,
+              itemBuilder: (context, index) {
+                FoulStudent foul = fouls[index];
+
+                return ListTile(
+                  title: Text(
+                      foul.form_violation_name), // Menampilkan nama pelanggaran
+                  subtitle: Text(foul.date),
+                  onTap: () {
+                    // Aksi ketika ListTile di-tap
+                  },
+                );
+              },
+            )
           ],
         ),
       ),

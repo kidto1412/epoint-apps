@@ -13,6 +13,8 @@ class FoulCubit extends Cubit<FoulState> {
     ApiReturnValue<Foul> result =
         await FoulServices.submitPunishment(punishment);
     if (result.value != null) {
+      print('result value');
+      print(result.value);
       emit(FoulLoaded(result.value));
     } else {
       emit(FoulLoadingFaield(result.message));

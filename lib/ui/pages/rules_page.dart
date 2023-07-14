@@ -12,7 +12,9 @@ class RulesPage extends StatelessWidget {
     return GeneralPage(
       title: 'Rules',
       subtitle: 'This is the rules page',
-      onBackButtonPressed: () {},
+      onBackButtonPressed: () {
+        Navigator.pop(context);
+      },
       child: Container(
         width: double.infinity,
         color: Colors.white,
@@ -21,7 +23,7 @@ class RulesPage extends StatelessWidget {
             builder: (_, state) {
               if (state is FormViolationLoaded) {
                 if (state.formv.isEmpty) {
-                  loadingIndicatior;
+                  loadingIndicator;
                 }
                 return Column(
                   children: state.formv.asMap().entries.map((entry) {
@@ -44,7 +46,7 @@ class RulesPage extends StatelessWidget {
                 );
               } else {
                 return Center(
-                  child: loadingIndicatior,
+                  child: loadingIndicator,
                 );
               }
             },
