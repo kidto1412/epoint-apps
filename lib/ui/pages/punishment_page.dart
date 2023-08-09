@@ -28,14 +28,9 @@ class _PunishmentPageState extends State<PunishmentPage> {
   String nip;
   String form_of_foul_id;
 
-  CameraImage cameraImage;
-  CameraController cameraController;
-  String output;
-
   @override
   void initState() {
     super.initState();
-    // loadCamera();
     loadNip();
     loadCurrentTime();
     fetchFormViolations();
@@ -73,21 +68,6 @@ class _PunishmentPageState extends State<PunishmentPage> {
     context.read<FormViolationCubit>().getFormOfViolation();
   }
 
-  loadCamera() {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameraController = CameraController(cameras[1], ResolutionPreset.medium);
-    cameraController.initialize().then((value) {
-      if (!mounted) {
-        return;
-      } else {
-        setState(() {
-          cameraController
-              .startImageStream((imageStream) => {cameraImage = imageStream});
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final categories =
@@ -95,24 +75,14 @@ class _PunishmentPageState extends State<PunishmentPage> {
     final fouls =
         context.watch<FormViolationCubit>().state as FormViolationLoaded;
     final teacher = context.watch<TeacherCubit>().state as TeacherLoaded;
-    return GeneralPage(
+    return GeneralGradientPage(
       title: 'Punishment',
       subtitle: 'Add punishment for student',
-      // onBackButtonPressed: () {
-      //   Navigator.pop(context);
-      // },
+      onBackButtonPressed: () {
+        Navigator.pop(context);
+      },
       child: Column(
         children: [
-          // Container(
-          //     width: 250,
-          //     height: 250,
-          //     margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
-          //     child: !cameraController.value.isInitialized
-          //         ? Container()
-          //         : AspectRatio(
-          //             aspectRatio: cameraController.value.aspectRatio,
-          //             child: CameraPreview(cameraController),
-          //           )),
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
@@ -256,44 +226,44 @@ class _PunishmentPageState extends State<PunishmentPage> {
                   }
                 }),
           ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
-            child: Text(
-              'Type Of Punishment',
-              style: blackFontStyle2,
-            ),
-          ),
-          Container(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  border: Border.all(color: greyColor, width: 2)),
-              child: DropdownButton<String>(
-                hint: Text("Select Punishment"),
-                underline: Container(),
-                isExpanded: true,
-                value: selectedCategory,
-                items: categories.foul_categories.map((value) {
-                  return DropdownMenuItem<String>(
-                    child: Text(value.name),
-                    value: value.id,
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedCategory = value;
-                    // valPunishment = null;
-                    getFilteredFouls();
-                    print('filtered');
-                    print(filteredViolations);
-                    print("You selected: $selectedCategory");
-                  });
-                },
-              )),
+          // Container(
+          //   width: double.infinity,
+          //   margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
+          //   child: Text(
+          //     'Type Of Punishment',
+          //     style: blackFontStyle2,
+          //   ),
+          // ),
+          // Container(
+          //     width: double.infinity,
+          //     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+          //     padding: EdgeInsets.symmetric(horizontal: 10),
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(10),
+          //         color: Colors.white,
+          //         border: Border.all(color: greyColor, width: 2)),
+          //     child: DropdownButton<String>(
+          //       hint: Text("Select Punishment"),
+          //       underline: Container(),
+          //       isExpanded: true,
+          //       value: selectedCategory,
+          //       items: categories.foul_categories.map((value) {
+          //         return DropdownMenuItem<String>(
+          //           child: Text(value.name),
+          //           value: value.id,
+          //         );
+          //       }).toList(),
+          //       onChanged: (value) {
+          //         setState(() {
+          //           selectedCategory = value;
+          //           // valPunishment = null;
+          //           getFilteredFouls();
+          //           print('filtered');
+          //           print(filteredViolations);
+          //           print("You selected: $selectedCategory");
+          //         });
+          //       },
+          //     )),
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
@@ -380,6 +350,11 @@ class _PunishmentPageState extends State<PunishmentPage> {
                                 'Punishment Added',
                                 style: GoogleFonts.poppins(color: Colors.white),
                               ));
+                          context
+                              .bloc<FormViolationCubit>()
+                              .getFormOfViolation();
+                          context.bloc<StudentCubit>().GetStudents();
+                          context.bloc<ClassRoomCubitCubit>().getClassRoom();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

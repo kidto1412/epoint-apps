@@ -9,7 +9,7 @@ class ProfilePage extends StatelessWidget {
         (context.bloc<StudentCubit>().state as StudentLoaded)
             .student
             .violations;
-    return GeneralPage(
+    return GeneralGradientPage(
       title: 'Profile Page',
       onBackButtonPressed: () {
         Navigator.pop(context);
@@ -18,45 +18,74 @@ class ProfilePage extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1611485988300-b7530defb8e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFuJTIwZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
-                radius: 40,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 30, // Ukuran ikon avatar
+                  ),
+                ),
               ),
             ),
-            Text(
-              'Name',
-              style: TextStyle(color: Colors.grey, letterSpacing: 2),
+            SizedBox(height: 10),
+            Center(
+              child: Text(
+                (context.bloc<StudentCubit>().state as StudentLoaded)
+                    .student
+                    .name,
+                style: TextStyle(
+                    color: mainColor,
+                    letterSpacing: 2,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Center(
+              child: Text(
+                'Poin',
+                style: TextStyle(color: Colors.grey, letterSpacing: 2),
+              ),
             ),
             SizedBox(height: 10),
-            Text(
-              (context.bloc<StudentCubit>().state as StudentLoaded)
-                  .student
-                  .name,
-              style: TextStyle(
-                  color: mainColor,
-                  letterSpacing: 2,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                (context.bloc<StudentCubit>().state as StudentLoaded)
+                    .student
+                    .total_point
+                    .toString(),
+                style: TextStyle(
+                    color: mainColor,
+                    letterSpacing: 2,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-            SizedBox(height: 30),
-            Text(
-              'Poin',
-              style: TextStyle(color: Colors.grey, letterSpacing: 2),
-            ),
-            SizedBox(height: 10),
-            Text(
-              (context.bloc<StudentCubit>().state as StudentLoaded)
-                  .student
-                  .total_point
-                  .toString(),
-              style: TextStyle(
-                  color: mainColor,
-                  letterSpacing: 2,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: RaisedButton(
+                  onPressed: () async {
+                    Get.to(UpdateStudentProfile());
+                  },
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  color: Colors.blue,
+                  child: Text('Update Password',
+                      style:
+                          GoogleFonts.poppins().copyWith(color: Colors.white)),
+                ),
+              ),
             ),
             SizedBox(height: 30),
             Row(
@@ -102,24 +131,47 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 199),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text('Data Pelanggaran'),
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: fouls.length,
               itemBuilder: (context, index) {
                 FoulStudent foul = fouls[index];
-
-                return ListTile(
-                  title: Text(
-                      foul.form_violation_name), // Menampilkan nama pelanggaran
-                  subtitle: Text(foul.date),
-                  onTap: () {
-                    // Aksi ketika ListTile di-tap
-                  },
+                return Row(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            width: 260,
+                            child: Text(foul.form_violation_name),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Container(
+                        child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text('${foul.point}'),
+                    ))
+                  ],
                 );
+                // return ListTile(
+                //   title: Text(
+                //       foul.form_violation_name), // Menampilkan nama pelanggaran
+                //   subtitle: Text(foul.date),
+                // );
               },
-            )
+            ),
+            SizedBox(height: 50)
           ],
         ),
       ),

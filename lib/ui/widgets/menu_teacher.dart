@@ -41,7 +41,7 @@ class MenuTeacher extends StatelessWidget {
             margin: EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
-                Get.to(ProfileTeacherPage());
+                Get.to(ClassRoomPage());
               },
               splashColor: mainColor,
               child: Center(
@@ -49,7 +49,7 @@ class MenuTeacher extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.settings,
+                      Icons.class_,
                       size: 70,
                       color: mainColor,
                     ),
@@ -57,7 +57,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Settings',
+                      'Class',
                       style: greyFontStyle,
                     )
                   ],

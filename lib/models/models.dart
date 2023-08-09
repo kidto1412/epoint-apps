@@ -12,3 +12,6 @@ part 'foul_category.dart';
 part 'formViolation.dart';
 part 'foul.dart';
 part 'foul_student.dart';
+part 'class_room.dart';
+part 'major.dart';
+part 'foul_student_class.dart';

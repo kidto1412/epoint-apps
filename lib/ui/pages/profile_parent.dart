@@ -1,11 +1,11 @@
 part of 'pages.dart';
 
-class ProfileTeacherPage extends StatefulWidget {
+class ProfileParentPage extends StatefulWidget {
   @override
-  _ProfileTeacherPageState createState() => _ProfileTeacherPageState();
+  _ProfileParentPageState createState() => _ProfileParentPageState();
 }
 
-class _ProfileTeacherPageState extends State<ProfileTeacherPage> {
+class _ProfileParentPageState extends State<ProfileParentPage> {
   int selectedIndex = 0;
 
   @override
@@ -13,10 +13,6 @@ class _ProfileTeacherPageState extends State<ProfileTeacherPage> {
     return GeneralGradientPage(
       title: 'Profile',
       subtitle: '',
-      onBackButtonPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MainPageTeacher()));
-      },
       child: Column(
         children: [
           //// Header
@@ -29,54 +25,46 @@ class _ProfileTeacherPageState extends State<ProfileTeacherPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
-                          .teacher
+                  if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                          .parent
                           .profile_photo_path ==
                       null)
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 30, // Ukuran ikon avatar
-                        ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 30, // Ukuran ikon avatar
                       ),
                     ),
-                  if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
-                          .teacher
+                  ),
+                  if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                          .parent
                           .profile_photo_path !=
                       null)
                     Container(
-                      width: 70,
-                      height: 70,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<TeacherCubit>().state as TeacherLoaded).teacher.profile_photo_path}"),
+                                  "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<ParentCubit>().state as ParentLoaded).parent.profile_photo_path}"),
                               fit: BoxFit.cover)),
                     ),
                   Text(
-                    (context.bloc<TeacherCubit>().state as TeacherLoaded)
-                        .teacher
+                    (context.bloc<ParentCubit>().state as ParentLoaded)
+                        .parent
                         .name,
                     style: GoogleFonts.poppins(
                         fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    (context.bloc<TeacherCubit>().state as TeacherLoaded)
-                        .teacher
-                        .position,
-                    style: greyFontStyle.copyWith(fontWeight: FontWeight.w300),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -113,29 +101,29 @@ class _ProfileTeacherPageState extends State<ProfileTeacherPage> {
                 Column(
                   children: ((selectedIndex == 0)
                           ? [
-                              'NIP' +
+                              'Username' +
                                   ': ' +
-                                  (context.bloc<TeacherCubit>().state
-                                          as TeacherLoaded)
-                                      .teacher
-                                      .nip,
+                                  (context.bloc<ParentCubit>().state
+                                          as ParentLoaded)
+                                      .parent
+                                      .username,
                               'Tempat Tanggal Lahir' +
                                   ': ' +
-                                  (context.bloc<TeacherCubit>().state
-                                          as TeacherLoaded)
-                                      .teacher
+                                  (context.bloc<ParentCubit>().state
+                                          as ParentLoaded)
+                                      .parent
                                       .date_and_place_of_birth,
                               'Phone Number' +
                                   ': ' +
-                                  (context.bloc<TeacherCubit>().state
-                                          as TeacherLoaded)
-                                      .teacher
+                                  (context.bloc<ParentCubit>().state
+                                          as ParentLoaded)
+                                      .parent
                                       .phoneNumber,
                               'Address' +
                                   ': ' +
-                                  (context.bloc<TeacherCubit>().state
-                                          as TeacherLoaded)
-                                      .teacher
+                                  (context.bloc<ParentCubit>().state
+                                          as ParentLoaded)
+                                      .parent
                                       .address,
                             ]
                           : [

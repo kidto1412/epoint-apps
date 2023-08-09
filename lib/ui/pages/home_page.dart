@@ -6,6 +6,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stateStudent = context.watch<StudentCubit>().state as StudentLoaded;
+    List<FoulStudent> fouls =
+        (context.bloc<StudentCubit>().state as StudentLoaded)
+            .student
+            .violations;
     // final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return SafeArea(
       child: ListView(
@@ -17,9 +21,13 @@ class HomePage extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  color: Colors.white,
                   height: 100,
                   width: double.infinity,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: ['36D1DC'.toColor(), '5B86E5'.toColor()])),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -27,15 +35,17 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Text('Hi Welcome, ',
+                              style: greyFontStyle.copyWith(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white)),
                           Text(
-                            'Hi Welcome, ',
-                            style: greyFontStyle.copyWith(
-                                fontWeight: FontWeight.w300),
+                            (context.bloc<StudentCubit>().state
+                                    as StudentLoaded)
+                                .student
+                                .name,
+                            style: TextStyle(color: Colors.white),
                           ),
-                          Text((context.bloc<StudentCubit>().state
-                                  as StudentLoaded)
-                              .student
-                              .name),
                         ],
                       ),
                       if ((context.bloc<StudentCubit>().state as StudentLoaded)
@@ -74,7 +84,41 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Menu()
+                Menu(),
+                // ListView.builder(
+                //   padding: EdgeInsets.all(8),
+                //   shrinkWrap: true,
+                //   physics: NeverScrollableScrollPhysics(),
+                //   itemCount: fouls.length,
+                //   itemBuilder: (context, index) {
+                //     FoulStudent foul = fouls[index];
+                //     return Container(
+                //       height: 50,
+                //       child: Card(
+                //         elevation: 2,
+                //         child: Row(
+                //           children: [
+                //             Column(
+                //               children: [
+                //                 Container(
+                //                   margin: EdgeInsets.only(left: 10),
+                //                   width: 260,
+                //                   child: Text(foul.form_violation_name),
+                //                 ),
+                //               ],
+                //             ),
+                //             Spacer(),
+                //             Container(
+                //                 child: Padding(
+                //               padding: const EdgeInsets.all(10.0),
+                //               child: Text('${foul.point}'),
+                //             ))
+                //           ],
+                //         ),
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

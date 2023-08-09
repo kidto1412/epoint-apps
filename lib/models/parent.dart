@@ -5,10 +5,20 @@ class Parent extends Equatable {
   final String name;
   final String username;
   final String password;
-  final DateTime date_and_place_of_birth;
+  final String date_and_place_of_birth;
   final String phoneNumber;
   final String address;
   final String profile_photo_path;
+  static String token;
+  factory Parent.fromJson(Map<String, dynamic> data) => Parent(
+      id: data['id'] as int,
+      username: data['username'],
+      name: data['name'],
+      password: data['password'],
+      phoneNumber: data['phone_number'],
+      date_and_place_of_birth: data['date_and_place_of_birth'],
+      address: data['address'],
+      profile_photo_path: data['profile_photo_path']);
   Parent({
     this.id,
     this.name,
@@ -31,5 +41,6 @@ class Parent extends Equatable {
         phoneNumber,
         address,
         profile_photo_path,
+        token
       ];
 }

@@ -6,3 +6,4 @@ export 'point_cubit.dart';
 export 'foul_cubit.dart';
 export 'form_violation_cubit.dart';
 export 'foul_category_cubit.dart';
+export 'class_room_cubit.dart';

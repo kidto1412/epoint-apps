@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => FormViolationCubit()),
         BlocProvider(create: (_) => FoulCategoryCubit()),
         BlocProvider(create: (_) => FoulCubit()),
+        BlocProvider(create: (_) => ClassRoomCubitCubit()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

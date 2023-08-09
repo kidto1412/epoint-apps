@@ -40,4 +40,36 @@ class StudentServices {
       return ApiReturnValue(value: students);
     }
   }
+
+  static Future<ApiReturnValue> changePasswordStudent(
+      String currentPassword, String newPassword, String PasswordConfirmation,
+      {http.Client client}) async {
+    if (client == null) {
+      client = http.Client();
+    }
+    String url = baseUrl + 'change-password/student';
+    var response = await client.post(Uri.parse(url),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer ${Student.token}"
+        },
+        body: jsonEncode(<String, String>{
+          'current_password': currentPassword,
+          'new_password': newPassword,
+          'confirm_password': PasswordConfirmation
+        }));
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: 'Please try again');
+    }
+    var data = jsonDecode(response.body);
+
+    String message = data['meta']['message'];
+    Student.token = null;
+    String status = data['meta']['status'];
+    // print(value);
+    print('message');
+    print(message);
+    return ApiReturnValue(value: status, message: message);
+  }
 }

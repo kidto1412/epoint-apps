@@ -27,13 +27,13 @@ class Teacher extends Equatable {
   });
 
   factory Teacher.fromJson(Map<String, dynamic> data) => Teacher(
-      id: data['id'],
+      id: data['id'] as int,
       nip: data['nip'],
       password: data['password'],
       name: data['name'],
       position: data['position'],
       gender: data['gender'],
-      phoneNumber: data['phoneNumber'],
+      phoneNumber: data['phone_number'],
       date_and_place_of_birth: data['date_and_place_of_birth'],
       address: data['address'],
       profile_photo_path: data['profile_photo_path']);

@@ -9,6 +9,8 @@ class CustomBottomBarTeacher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final teacherState = context.watch<TeacherCubit>().state as TeacherLoaded;
+    final teacherPosition = teacherState.teacher.position;
     return Container(
       width: double.infinity,
       height: 60,
@@ -34,7 +36,11 @@ class CustomBottomBarTeacher extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(1);
+                if (_hasAccess(teacherPosition)) {
+                  onTap(1);
+                } else {
+                  _showAccessSnackBar(context);
+                }
               }
             },
             child: Container(
@@ -63,4 +69,21 @@ class CustomBottomBarTeacher extends StatelessWidget {
       ),
     );
   }
+}
+
+bool _hasAccess(String position) {
+  // Check if the user has access based on their position.
+  return position == 'BK' ||
+      position == 'Kesiswaan' ||
+      position == 'kepala sekolah';
+}
+
+void _showAccessSnackBar(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text("Anda tidak memiliki akses disini."),
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.red,
+    ),
+  );
 }

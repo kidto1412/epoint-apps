@@ -8,94 +8,25 @@ class UpdateStudentProfile extends StatefulWidget {
 }
 
 class _UpdateStudentProfileState extends State<UpdateStudentProfile> {
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  File pictureFile;
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController passworConfirmationController = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return GeneralPage(
-      title: 'Update Profile',
+      title: 'Update Password',
       subtitle: '',
+      onBackButtonPressed: () {
+        Navigator.pop(context);
+      },
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () async {},
-            child: Container(
-              width: 110,
-              height: 110,
-              margin: EdgeInsets.only(top: 26),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/photo_border.png'))),
-              child: (pictureFile != null)
-                  ? Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: FileImage(pictureFile),
-                              fit: BoxFit.cover)),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage('assets/photo.png'),
-                              fit: BoxFit.cover)),
-                    ),
-            ),
-          ),
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
             child: Text(
-              "Full Name",
-              style: blackFontStyle2,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black)),
-            child: TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: greyFontStyle,
-                  hintText: 'Type your full name'),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
-            child: Text(
-              "Email Address",
-              style: blackFontStyle2,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black)),
-            child: TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: greyFontStyle,
-                  hintText: 'Type your email address'),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
-            child: Text(
-              "Password",
+              "Current Password",
               style: blackFontStyle2,
             ),
           ),
@@ -108,11 +39,59 @@ class _UpdateStudentProfileState extends State<UpdateStudentProfile> {
                 border: Border.all(color: Colors.black)),
             child: TextField(
               obscureText: true,
-              controller: passwordController,
+              controller: currentPasswordController,
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintStyle: greyFontStyle,
-                  hintText: 'Type your password'),
+                  hintText: 'Type your current password'),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
+            child: Text(
+              "New Password",
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black)),
+            child: TextField(
+              controller: newPasswordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: greyFontStyle,
+                  hintText: 'Type your new password'),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 16, defaultMargin, 6),
+            child: Text(
+              "Password Confirmation",
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black)),
+            child: TextField(
+              obscureText: true,
+              controller: passworConfirmationController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: greyFontStyle,
+                  hintText: 'Type Confirmation Pasword'),
             ),
           ),
           Container(
@@ -121,15 +100,85 @@ class _UpdateStudentProfileState extends State<UpdateStudentProfile> {
             height: 45,
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+
+                // await context.bloc<StudentCubit>().ChangePasswordStudent(
+                //     currentPasswordController.text,
+                //     newPasswordController.text,
+                //     passworConfirmationController.text);
+
+                // StudentState state = context.bloc<StudentCubit>().state;
+
+                var apiResult = await StudentServices.changePasswordStudent(
+                    currentPasswordController.text,
+                    newPasswordController.text,
+                    passworConfirmationController.text);
+
+                if (apiResult.value == 'success') {
+                  Get.snackbar(
+                    "",
+                    "",
+                    backgroundColor: Colors.green,
+                    icon: Icon(
+                      MdiIcons.checkCircleOutline,
+                      color: Colors.white,
+                    ),
+                    titleText: Text(
+                      "Success",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    messageText: Text(
+                      'Profile Updated',
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignInPage(),
+                    ),
+                  );
+                } else {
+                  Get.snackbar(
+                    "",
+                    "",
+                    backgroundColor: "D9435E".toColor(),
+                    icon: Icon(
+                      MdiIcons.closeCircleOutline,
+                      color: Colors.white,
+                    ),
+                    titleText: Text(
+                      "Failed",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    messageText: Text(
+                      "Failed",
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                  );
+                }
+
+                setState(() {
+                  isLoading = false;
+                });
+              },
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               color: mainColor,
               child: Text(
-                'Continue',
+                'Update Password',
                 style: GoogleFonts.poppins(
-                    color: Colors.black, fontWeight: FontWeight.w500),
+                    color: Colors.white, fontWeight: FontWeight.w500),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -17,7 +18,7 @@ import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:e_point/services/services.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -39,5 +40,14 @@ part 'detail_student.dart';
 part 'profile_teacher.dart';
 part 'verification.dart';
 part 'update_profile_student.dart';
+part 'update_profile_teacher.dart';
+part 'class_room_page.dart';
+part 'detail_class_page.dart';
+part 'general_gradient.dart';
+part 'main_page_parent.dart';
+part 'home_page_parent.dart';
+part 'update_parent.dart';
+part 'profile_parent.dart';
+part 'point_page_childern.dart';
 // part '../widgets/menu.dart';
 // part '../widgets/menu.dart';

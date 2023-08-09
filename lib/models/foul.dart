@@ -19,13 +19,16 @@ class Foul extends Equatable {
       this.form});
 
   factory Foul.fromJson(Map<String, dynamic> data) => Foul(
-      time: data['time'],
-      date: data['date'],
-      description: data['description'],
-      student_nis: data['student_nis'],
-      teacher_nip: data['teacher_nip'],
-      form_of_foul_id: data['form_of_foul_id'],
-      form: FormOfViolation.formJson(data['form']));
+        time: data['time'],
+        date: data['date'],
+        description: data['description'],
+        student_nis: data['student_nis'],
+        teacher_nip: data['teacher_nip'],
+        form_of_foul_id: data['form_of_foul_id'],
+        form: data['form'] != null
+            ? FormOfViolation.formJson(data['form'])
+            : null,
+      );
 
   Foul copyWith({
     String time,

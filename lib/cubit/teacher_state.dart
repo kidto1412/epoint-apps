@@ -11,11 +11,18 @@ class TeacherInitial extends TeacherState {}
 
 class TeacherLoaded extends TeacherState {
   final Teacher teacher;
-  final List<Student> students;
-  TeacherLoaded(this.teacher, this.students);
+  // final List<Student> students;
+  TeacherLoaded(this.teacher);
 
   @override
-  List<Object> get props => [teacher, students];
+  List<Object> get props => [teacher];
+}
+
+class UpdateTeacherLoaded extends TeacherState {
+  final Teacher teacher;
+  UpdateTeacherLoaded(this.teacher);
+  @override
+  List<Object> get props => [teacher];
 }
 
 class TeacherLoadingFaield extends TeacherState {
@@ -23,4 +30,13 @@ class TeacherLoadingFaield extends TeacherState {
   TeacherLoadingFaield(this.message);
   @override
   List<Object> get props => [message];
+}
+
+class ProfilePictureUploaded extends TeacherState {
+  final Teacher teacher;
+
+  ProfilePictureUploaded(this.teacher);
+
+  @override
+  List<Object> get props => [teacher];
 }

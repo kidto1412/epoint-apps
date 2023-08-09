@@ -12,15 +12,26 @@ class _VerificationPageState extends State<VerificationPage> {
   CameraImage cameraImage;
   File _image;
   Teacher teacher;
+  String nipTeacher;
   @override
   void initState() {
     super.initState();
     initializieCamera();
+    loadNip();
+  }
+
+  void loadNip() {
+    final teacherState = context.read<TeacherCubit>().state;
+    if (teacherState is TeacherLoaded) {
+      final name = teacherState.teacher.name;
+      final nip = teacherState.teacher.nip;
+      nipTeacher = nip;
+    }
   }
 
   initializieCamera() {
     WidgetsFlutterBinding.ensureInitialized();
-    cameraController = CameraController(cameras[0], ResolutionPreset.medium);
+    cameraController = CameraController(cameras[0], ResolutionPreset.max);
     cameraController.initialize().then((value) {
       if (!mounted) {
         return;
@@ -58,26 +69,87 @@ class _VerificationPageState extends State<VerificationPage> {
 
     try {
       // Menggunakan package http untuk mengirim gambar ke API
-      String baseUrl =
-          'http://192.168.1.7/epoint-api/public/api/teacher/verification';
-      var uri = Uri.parse(baseUrl);
+      String url = baseUrl + 'teacher/face-matching';
+      var uri = Uri.parse(url);
 
       var request = http.MultipartRequest('POST', uri)
-        ..headers["Content-Type"] = "application/json"
+        ..headers["Content-Type"] = "multipart/form-data"
         ..headers["Authorization"] = "Bearer ${Teacher.token}";
 
       request.files
           .add(await http.MultipartFile.fromPath('image', imageFile.path));
       var response = await request.send();
-      print('response');
-      print(response.statusCode);
+
+      // request.files
+      //     .add(await http.MultipartFile.fromPath('image', imageFile.path));
+      // var response = await request.send();
 
       if (response.statusCode == 200) {
+        String responseData = await response.stream.bytesToString();
+        Map<String, dynamic> jsonResponse = json.decode(responseData);
+        String status = jsonResponse['result']['status'];
+        String label = jsonResponse['result']['label'];
+        print(status);
+
+        if (status == 'success') {
+          if (nipTeacher == label) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PunishmentPage()));
+            print('image matched');
+            Get.snackbar("", "",
+                backgroundColor: Colors.green,
+                icon: Icon(
+                  MdiIcons.closeCircleOutline,
+                  color: Colors.white,
+                ),
+                titleText: Text(
+                  "Success",
+                  style: GoogleFonts.poppins(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+                messageText: Text(
+                  'Punishment Added',
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ));
+          } else {
+            Get.snackbar("", "",
+                backgroundColor: Colors.green,
+                icon: Icon(
+                  MdiIcons.closeCircleOutline,
+                  color: Colors.white,
+                ),
+                titleText: Text(
+                  "Faield",
+                  style: GoogleFonts.poppins(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+                messageText: Text(
+                  'This is not your face',
+                  style: GoogleFonts.poppins(color: Colors.white),
+                ));
+          }
+          // print('Image uploaded successfully');
+        } else {
+          Get.snackbar("", "",
+              backgroundColor: Colors.green,
+              icon: Icon(
+                MdiIcons.closeCircleOutline,
+                color: Colors.white,
+              ),
+              titleText: Text(
+                "Failed",
+                style: GoogleFonts.poppins(
+                    color: Colors.white, fontWeight: FontWeight.w600),
+              ),
+              messageText: Text(
+                'Try Again',
+                style: GoogleFonts.poppins(color: Colors.white),
+              ));
+        }
+
         // Berhasil mengirim gambar ke API
         // Lakukan sesuatu dengan respons API jika diperlukan
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PunishmentPage()));
-        print('Image uploaded successfully');
+
       } else {
         // Gagal mengirim gambar ke API
         print('Failed to upload image');
@@ -103,9 +175,13 @@ class _VerificationPageState extends State<VerificationPage> {
     if (!cameraController.value.isInitialized) {
       return loadingIndicator;
     }
-    return GeneralPage(
+    return GeneralGradientPage(
         title: 'Verification',
         subtitle: '',
+        onBackButtonPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MainPageTeacher()));
+        },
         child: Column(
           children: [
             SizedBox(

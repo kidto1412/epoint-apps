@@ -146,10 +146,11 @@ class _SignInPageState extends State<SignInPage> {
                               context.bloc<StudentCubit>().state;
                           if (state is StudentLoaded) {
                             // Panggil Data Point
-                            context.bloc<StudentCubit>().GetStudents();
                             context
                                 .bloc<FormViolationCubit>()
                                 .getFormOfViolation();
+
+                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
                             Get.to(MainPage());
                           } else {
                             setState(() {
@@ -179,15 +180,18 @@ class _SignInPageState extends State<SignInPage> {
                               nipController.text, passwordController.text);
                           TeacherState state =
                               context.bloc<TeacherCubit>().state;
+
                           if (state is TeacherLoaded) {
                             context
                                 .bloc<FoulCategoryCubit>()
                                 .getFoulCategories();
+
                             context
                                 .bloc<FormViolationCubit>()
                                 .getFormOfViolation();
-                            context.bloc<TeacherCubit>().GetStudents();
 
+                            context.bloc<StudentCubit>().GetStudents();
+                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
                             Get.to(MainPageTeacher());
                           } else {
                             setState(() {
@@ -215,6 +219,44 @@ class _SignInPageState extends State<SignInPage> {
                         } else if (_selectedUserType == UserType.parent) {
                           await context.bloc<ParentCubit>().signIn(
                               usernameController.text, passwordController.text);
+                          ParentState state = context.bloc<ParentCubit>().state;
+                          if (state is ParentLoaded) {
+                            context
+                                .bloc<FoulCategoryCubit>()
+                                .getFoulCategories();
+
+                            context
+                                .bloc<FormViolationCubit>()
+                                .getFormOfViolation();
+
+                            context
+                                .bloc<StudentCubit>()
+                                .GetStudentsByParent(state.parent.id);
+                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
+                            Get.to(MainPageParent());
+                          } else {
+                            setState(() {
+                              Get.snackbar("", "",
+                                  backgroundColor: "D9435E".toColor(),
+                                  icon: Icon(
+                                    MdiIcons.closeCircleOutline,
+                                    color: Colors.white,
+                                  ),
+                                  titleText: Text(
+                                    'Sign In Failed',
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  messageText: Text(
+                                    (state as ParentLoadingFaield).message,
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                  ));
+
+                              isLoading = false;
+                            });
+                          }
                         }
                       },
                       elevation: 0,

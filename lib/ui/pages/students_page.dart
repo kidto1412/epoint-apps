@@ -13,7 +13,7 @@ class _StudentsPageState extends State<StudentsPage> {
     double listItemWidth =
         MediaQuery.of(context).size.width - 2 * defaultMargin;
 
-    return GeneralPage(
+    return GeneralGradientPage(
       title: 'Students Page',
       onBackButtonPressed: () {
         Navigator.pop(context);
@@ -47,9 +47,9 @@ class _StudentsPageState extends State<StudentsPage> {
                 width: double.infinity,
                 color: Colors.white,
                 child: SingleChildScrollView(child:
-                    BlocBuilder<TeacherCubit, TeacherState>(
+                    BlocBuilder<StudentCubit, StudentState>(
                         builder: (_, state) {
-                  if (state is TeacherLoaded) {
+                  if (state is StudentsLoaded) {
                     return Column(
                       children: state.students
                           .map(

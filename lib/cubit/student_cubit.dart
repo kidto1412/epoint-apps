@@ -10,12 +10,9 @@ class StudentCubit extends Cubit<StudentState> {
 
   Future<void> signIn(String nis, String password) async {
     ApiReturnValue result = await StudentServices.SignIn(nis, password);
-    ApiReturnValue<List<Student>> studentsResult =
-        await StudentServices.getStudents();
+
     if (result.value != null) {
-      Student student = result.value;
-      List<Student> students = studentsResult.value;
-      emit(StudentLoaded(student, students));
+      emit(StudentLoaded(result.value));
     } else {
       emit(StudentLoadingFaield(result.message));
     }
@@ -24,13 +21,30 @@ class StudentCubit extends Cubit<StudentState> {
   Future<void> GetStudents() async {
     ApiReturnValue<List<Student>> result = await StudentServices.getStudents();
     if (result.value != null) {
-      Student student;
-      if (state is StudentLoaded) {
-        student = (state as StudentLoaded).student;
-        emit(StudentLoaded(student, result.value));
-      } else {
-        emit(StudentLoadingFaield(result.message));
-      }
+      emit(StudentsLoaded(result.value));
+    } else {
+      emit(StudentLoadingFaield(result.message));
+    }
+  }
+
+  Future<void> GetStudentsByParent(int id) async {
+    ApiReturnValue<List<Student>> result =
+        await ParentServices.getMyChildern(id);
+    if (result.value != null) {
+      emit(StudentsLoaded(result.value));
+    } else {
+      emit(StudentLoadingFaield(result.message));
+    }
+  }
+
+  Future<void> ChangePasswordStudent(String currentPassword, String newPassword,
+      String passwordConfirmatiom) async {
+    ApiReturnValue result = await StudentServices.changePasswordStudent(
+        currentPassword, newPassword, passwordConfirmatiom);
+    print('result change passowrd');
+    print(result);
+    if (result.value != null) {
+      emit(PasswordStudentChangeLoaded(result.value));
     } else {
       emit(StudentLoadingFaield(result.message));
     }

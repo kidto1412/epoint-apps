@@ -9,7 +9,7 @@ class DetailStudent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GeneralPage(
+    return GeneralGradientPage(
       title: 'Detail Student',
       subtitle: '',
       onBackButtonPressed: () {
@@ -26,15 +26,23 @@ class DetailStudent extends StatelessWidget {
                   children: [
                     if (student.profile_photo_path != null)
                       SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image(
-                              image: NetworkImage(
-                                  "http://10.0.2.2/epoint-api/public/storage/${student.profile_photo_path}"),
-                              fit: BoxFit.cover,
-                            )),
+                        width: 60,
+                        height: 60,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 30, // Ukuran ikon avatar
+                            ),
+                          ),
+                        ),
                       ),
                     if (student.profile_photo_path == null)
                       Container(
@@ -56,6 +64,7 @@ class DetailStudent extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(student.name, style: blackFontStyle1),
+                Text(student.nis, style: greyFontStyle),
                 Text(student.gender,
                     style: greyFontStyle.copyWith(fontSize: 16)),
                 Text(student.date_and_place_of_birth,
@@ -78,11 +87,37 @@ class DetailStudent extends StatelessWidget {
                   itemCount: fouls.length,
                   itemBuilder: (context, index) {
                     final foul = fouls[index];
-
-                    return ListTile(
-                      title: Text(foul.form.name),
-                      subtitle: Text(foul.date),
+                    return Row(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                width: 200,
+                                child: Text(foul.form.name),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Expanded(
+                          child: Container(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${foul.form.point}',
+                              textAlign: TextAlign.right,
+                            ),
+                          )),
+                        )
+                      ],
                     );
+                    // return ListTile(
+                    //   title: Text(foul.form.name),
+                    //   subtitle: Text(foul.date),
+                    // );
                   },
                   separatorBuilder: (context, index) => Divider(),
                 ),
