@@ -11,7 +11,7 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
   @override
   Widget build(BuildContext context) {
     return GeneralGradientPage(
-      title: 'Profile',
+      title: 'Profil',
       subtitle: '',
       child: Column(
         children: [
@@ -25,7 +25,7 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                  if ((context.watch<ParentCubit>().state as ParentLoaded)
                           .parent
                           .profile_photo_path ==
                       null)
@@ -47,7 +47,7 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                       ),
                     ),
                   ),
-                  if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                  if ((context.watch<ParentCubit>().state as ParentLoaded)
                           .parent
                           .profile_photo_path !=
                       null)
@@ -56,26 +56,23 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               image: NetworkImage(
-                                  "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<ParentCubit>().state as ParentLoaded).parent.profile_photo_path}"),
+                                  "http://epoint-api.com/storage/${(context.watch<ParentCubit>().state as ParentLoaded).parent.profile_photo_path}"),
                               fit: BoxFit.cover)),
                     ),
                   Text(
-                    (context.bloc<ParentCubit>().state as ParentLoaded)
-                        .parent
-                        .name,
+                    (context.watch<ParentCubit>().state as ParentLoaded)
+                            .parent
+                            .name ??
+                        '',
                     style: GoogleFonts.poppins(
                         fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () async {
                         Get.to(UpdateProfileTeacher());
                       },
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      color: Colors.blue,
                       child: Text('Update Password',
                           style: GoogleFonts.poppins()
                               .copyWith(color: Colors.white)),
@@ -103,28 +100,32 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                           ? [
                               'Username' +
                                   ': ' +
-                                  (context.bloc<ParentCubit>().state
-                                          as ParentLoaded)
-                                      .parent
-                                      .username,
+                                  ((context.watch<ParentCubit>().state
+                                              as ParentLoaded)
+                                          .parent
+                                          .username ??
+                                      ''),
                               'Tempat Tanggal Lahir' +
                                   ': ' +
-                                  (context.bloc<ParentCubit>().state
-                                          as ParentLoaded)
-                                      .parent
-                                      .date_and_place_of_birth,
+                                  ((context.watch<ParentCubit>().state
+                                              as ParentLoaded)
+                                          .parent
+                                          .date_and_place_of_birth ??
+                                      ''),
                               'Phone Number' +
                                   ': ' +
-                                  (context.bloc<ParentCubit>().state
-                                          as ParentLoaded)
-                                      .parent
-                                      .phoneNumber,
+                                  ((context.watch<ParentCubit>().state
+                                              as ParentLoaded)
+                                          .parent
+                                          .phoneNumber ??
+                                      ''),
                               'Address' +
                                   ': ' +
-                                  (context.bloc<ParentCubit>().state
-                                          as ParentLoaded)
-                                      .parent
-                                      .address,
+                                  ((context.watch<ParentCubit>().state
+                                              as ParentLoaded)
+                                          .parent
+                                          .address ??
+                                      '')
                             ]
                           : [
                               'Help Center',
@@ -155,9 +156,10 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(16),
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () async {
-                var apiResult = await TeacherServices.logout(Teacher.token);
+                var apiResult =
+                    await TeacherServices.logout(Teacher.token ?? "");
                 if (apiResult.value == true) {
                   // Jika logout berhasil, lakukan navigasi ke halaman login
                   Navigator.push(context,
@@ -168,9 +170,9 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                     context: context,
                     builder: (context) => AlertDialog(
                       title: Text('Logout Error'),
-                      content: Text(apiResult.message),
+                      content: Text(apiResult.message ?? ""),
                       actions: [
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
@@ -181,10 +183,6 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                   );
                 }
               },
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              color: Colors.red,
               child: Text('Logout',
                   style: GoogleFonts.poppins().copyWith(color: Colors.white)),
             ),

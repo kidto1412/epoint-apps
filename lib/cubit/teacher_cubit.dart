@@ -12,6 +12,7 @@ part 'teacher_state.dart';
 
 class TeacherCubit extends Cubit<TeacherState> {
   TeacherCubit() : super(TeacherInitial());
+
   Future<void> signIn(String nip, String password) async {
     ApiReturnValue result = await TeacherServices.SignIn(nip, password);
     if (result.value != null) {
@@ -21,13 +22,22 @@ class TeacherCubit extends Cubit<TeacherState> {
     }
   }
 
-  Future<void> UpdateProfile(Teacher teacher, {File pictureFile}) async {
+  Future<void> signInFace(String nip) async {
+    ApiReturnValue result = await TeacherServices.loginFace(nip);
+    if (result.value != null) {
+      emit(TeacherLoaded(result.value));
+    } else {
+      emit(TeacherLoadingFaield(result.message));
+    }
+  }
+
+  Future<void> UpdateProfile(Teacher teacher, {File? pictureFile}) async {
     ApiReturnValue<Teacher> result =
         await TeacherServices.UpdateProfile(teacher, pictureFile: pictureFile);
     print('result update');
     print(result);
     if (result.value != null) {
-      emit(TeacherLoaded(result.value));
+      emit(TeacherLoaded(result.value!));
     } else {
       emit(TeacherLoadingFaield(result.message));
     }
@@ -41,7 +51,7 @@ class TeacherCubit extends Cubit<TeacherState> {
     if (result.value != null) {
       emit(TeacherLoaded((state as TeacherLoaded).teacher.copyWith(
           profile_photo_path:
-              "http://10.0.2.2/epoint-api/public/storage/" + result.value)));
+              "http://10.0.2.2/epoint-api/public/storage/" + result.value!)));
     }
   }
 }

@@ -1,12 +1,12 @@
 part of 'models.dart';
 
 class ClassRoom extends Equatable {
-  final String id;
-  final String grade;
-  final double vectorS;
-  final double vectorV;
-  final Major major;
-  final List<FoulStudentClass> students;
+  final String? id;
+  final String? grade;
+  final double? vectorS;
+  final double? vectorV;
+  final Major? major;
+  final List<FoulStudentClass?>? students;
 
   ClassRoom(
       {this.id,
@@ -29,7 +29,7 @@ class ClassRoom extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         grade,
         vectorS,

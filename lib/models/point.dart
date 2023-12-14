@@ -1,17 +1,17 @@
 part of 'models.dart';
 
 class Point extends Equatable {
-  final int id;
-  final String name;
-  final DateTime time;
-  final DateTime date;
-  final String description;
-  final Student student;
-  final Teacher teacher;
-  final Parent parent;
-  final FormOfViolation formOfViolation;
-  final String phoneNumber;
-  final String address;
+  final int? id;
+  final String? name;
+  final DateTime? time;
+  final DateTime? date;
+  final String? description;
+  final Student? student;
+  final Teacher? teacher;
+  final Parent? parent;
+  final FormOfViolation? formOfViolation;
+  final String? phoneNumber;
+  final String? address;
   // final String profile_photo_path;
   Point(
       {this.id,
@@ -27,17 +27,17 @@ class Point extends Equatable {
       this.address});
 
   Point copyWith(
-      {int id,
-      String name,
-      DateTime time,
-      DateTime date,
-      String description,
-      Student student,
-      Teacher teacher,
-      Parent parent,
-      FormOfViolation formOfViolation,
-      String phoneNumber,
-      String address}) {
+      {int? id,
+      String? name,
+      DateTime? time,
+      DateTime? date,
+      String? description,
+      Student? student,
+      Teacher? teacher,
+      Parent? parent,
+      FormOfViolation? formOfViolation,
+      String? phoneNumber,
+      String? address}) {
     return Point(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -53,7 +53,7 @@ class Point extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         time,

@@ -55,7 +55,7 @@ class Menu extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Class',
+                      'Kelas',
                       style: greyFontStyle,
                     )
                   ],
@@ -84,7 +84,7 @@ class Menu extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Rules',
+                      'Peraturan',
                       style: greyFontStyle,
                     )
                   ],

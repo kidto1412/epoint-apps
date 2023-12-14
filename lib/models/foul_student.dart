@@ -1,14 +1,14 @@
 part of 'models.dart';
 
 class FoulStudent extends Equatable {
-  final int id;
-  final String date;
-  final String time;
-  final String description;
-  final String form_violation_name;
-  final int point;
+  final int? id;
+  final String? date;
+  final String? time;
+  final String? description;
+  final String? form_violation_name;
+  final int? point;
 
-  final String teacher_nip;
+  final String? teacher_nip;
 
   FoulStudent(
       {this.id,
@@ -31,7 +31,7 @@ class FoulStudent extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         time,
         date,

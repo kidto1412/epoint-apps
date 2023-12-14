@@ -2,7 +2,7 @@ part of 'services.dart';
 
 class FoulServices {
   static Future<ApiReturnValue<Foul>> submitPunishment(Foul foul,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }

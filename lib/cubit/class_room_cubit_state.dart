@@ -10,19 +10,19 @@ abstract class ClassRoomCubitState extends Equatable {
 class ClassRoomCubitInitial extends ClassRoomCubitState {}
 
 class ClassRoomLoaded extends ClassRoomCubitState {
-  final List<ClassRoom> classRoom;
+  final List<ClassRoom>? classRoom;
 
   ClassRoomLoaded(this.classRoom);
 
   @override
-  List<Object> get props => [classRoom];
+  List<Object> get props => [classRoom ?? []];
 }
 
 class ClassRoomLoadingFailed extends ClassRoomCubitState {
-  final String message;
+  final String? message;
 
   ClassRoomLoadingFailed(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }

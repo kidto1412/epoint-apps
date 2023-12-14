@@ -2,7 +2,7 @@ part of 'services.dart';
 
 class TeacherServices {
   static Future<ApiReturnValue<Teacher>> SignIn(String nip, String password,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -27,7 +27,7 @@ class TeacherServices {
 
   static Future<ApiReturnValue<Teacher>> SignUp(
       Teacher teacher, String password,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -35,7 +35,7 @@ class TeacherServices {
     String url = baseUrl + 'register-teacher';
     var response = await client.post(Uri.parse(url),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode(<String, String>{
+        body: jsonEncode(<String?, String?>{
           'name': teacher.name,
           'nip': teacher.nip,
           'password': teacher.nip,
@@ -59,7 +59,7 @@ class TeacherServices {
   }
 
   static Future<ApiReturnValue<String>> verificationImage(File image,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     String url = baseUrl + 'verification';
     if (client == null) {
       client = http.Client();
@@ -86,7 +86,7 @@ class TeacherServices {
   }
 
   static Future<ApiReturnValue<Teacher>> UpdateProfile(Teacher teacher,
-      {File pictureFile, http.Client client}) async {
+      {File? pictureFile, http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -98,7 +98,7 @@ class TeacherServices {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${Teacher.token}"
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String?, String?>{
         'phone_number': teacher.phoneNumber,
         'address': teacher.address,
       }),
@@ -113,11 +113,11 @@ class TeacherServices {
     print(data);
     Teacher value = Teacher.fromJson(data['data']);
     if (pictureFile != null) {
-      ApiReturnValue<String> result = await uploadProfilePicture(pictureFile);
+      ApiReturnValue<String?> result = await uploadProfilePicture(pictureFile);
       if (result.value != null) {
         value = value.copyWith(
           profile_photo_path:
-              "http://10.0.2.2/epoint-api/public/storage/" + result.value,
+              "http://10.0.2.2/epoint-api/public/storage/" + result.value!,
         );
       }
     }
@@ -125,7 +125,7 @@ class TeacherServices {
   }
 
   static Future<ApiReturnValue<String>> uploadProfilePicture(File pictureFile,
-      {http.MultipartRequest request}) async {
+      {http.MultipartRequest? request}) async {
     String url = baseUrl + 'teacher/photo';
     var uri = Uri.parse(url);
 
@@ -156,7 +156,7 @@ class TeacherServices {
   }
 
   static Future<ApiReturnValue<bool>> logout(String token,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -184,7 +184,7 @@ class TeacherServices {
 
   static Future<ApiReturnValue> changePasswordTeacher(
       String currentPassword, String newPassword, String PasswordConfirmation,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -212,5 +212,22 @@ class TeacherServices {
     print('message');
     print(message);
     return ApiReturnValue(value: status, message: message);
+  }
+
+  static Future<ApiReturnValue<Teacher>> loginFace(String nip,
+      {http.Client? client}) async {
+    client ??= client = http.Client();
+    String url = baseUrl + 'teacher/find/' + nip;
+    var response = await client.get(Uri.parse(url));
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue(message: 'Please try again');
+    } else {
+      var data = jsonDecode(response.body);
+
+      Teacher.token = data['data']['access_token'];
+      Teacher value = Teacher.fromJson(data['data']['teacher']);
+      return ApiReturnValue(value: value);
+    }
   }
 }

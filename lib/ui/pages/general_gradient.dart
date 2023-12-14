@@ -1,11 +1,11 @@
 part of 'pages.dart';
 
 class GeneralGradientPage extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Function onBackButtonPressed;
-  final Widget child;
-  final Color backColor;
+  final String? title;
+  final String? subtitle;
+  final Function? onBackButtonPressed;
+  final Widget? child;
+  final Color? backColor;
 
   GeneralGradientPage(
       {this.title = "title",
@@ -55,7 +55,7 @@ class GeneralGradientPage extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         if (onBackButtonPressed != null) {
-                                          onBackButtonPressed();
+                                          onBackButtonPressed!();
                                         }
                                       },
                                       icon: Icon(
@@ -68,12 +68,12 @@ class GeneralGradientPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(title,
+                              Text(title ?? "",
                                   style: GoogleFonts.poppins(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white)),
-                              Text(subtitle,
+                              Text(subtitle ?? '',
                                   style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w300)),

@@ -10,8 +10,8 @@ class RulesPage extends StatelessWidget {
     // final state =
     //     context.watch<FormViolationCubit>().state as FormViolationLoaded;
     return GeneralGradientPage(
-      title: 'Rules',
-      subtitle: 'This is the rules page',
+      title: 'Peraturan',
+      subtitle: 'Halaman Peraturan',
       onBackButtonPressed: () {
         Navigator.pop(context);
       },
@@ -22,7 +22,7 @@ class RulesPage extends StatelessWidget {
           child: BlocBuilder<FormViolationCubit, FormViolationState>(
             builder: (_, state) {
               if (state is FormViolationLoaded) {
-                if (state.formv.isEmpty) {
+                if (state.formv!.isEmpty) {
                   return Center(
                     child: Container(
                       child: Text('Data Not Found'),
@@ -30,7 +30,7 @@ class RulesPage extends StatelessWidget {
                   );
                 }
                 return Column(
-                  children: state.formv.asMap().entries.map((entry) {
+                  children: state.formv!.asMap().entries.map((entry) {
                     int index = entry.key;
                     FormOfViolation formViolation = entry.value;
                     return Padding(

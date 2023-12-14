@@ -5,9 +5,9 @@ class ClassRoomList extends StatelessWidget {
   final double itemWidth;
   final int itemNumber;
   ClassRoomList(
-      {@required this.classRoom,
-      @required this.itemWidth,
-      @required this.itemNumber});
+      {required this.classRoom,
+      required this.itemWidth,
+      required this.itemNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ClassRoomList extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      classRoom.grade,
+                      classRoom.grade ?? '',
                       style: blackFontStyle2,
                       maxLines: 1,
                       overflow: TextOverflow.clip,
@@ -32,7 +32,7 @@ class ClassRoomList extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(left: 10),
                     child: Text(
-                      classRoom.major.name,
+                      classRoom.major!.name ?? '',
                       style: greyFontStyle.copyWith(fontSize: 13),
                     ),
                   ),

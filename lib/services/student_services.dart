@@ -2,7 +2,7 @@ part of 'services.dart';
 
 class StudentServices {
   static Future<ApiReturnValue<Student>> SignIn(String nis, String password,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -22,7 +22,7 @@ class StudentServices {
   }
 
   static Future<ApiReturnValue<List<Student>>> getStudents(
-      {http.Client client}) async {
+      {http.Client? client}) async {
     client ??= client = http.Client();
     String url = baseUrl + 'students';
     var response = await client.get(Uri.parse(url));
@@ -43,7 +43,7 @@ class StudentServices {
 
   static Future<ApiReturnValue> changePasswordStudent(
       String currentPassword, String newPassword, String PasswordConfirmation,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }

@@ -21,17 +21,17 @@ class StudentCubit extends Cubit<StudentState> {
   Future<void> GetStudents() async {
     ApiReturnValue<List<Student>> result = await StudentServices.getStudents();
     if (result.value != null) {
-      emit(StudentsLoaded(result.value));
+      emit(StudentsLoaded(result.value!));
     } else {
       emit(StudentLoadingFaield(result.message));
     }
   }
 
-  Future<void> GetStudentsByParent(int id) async {
+  Future<void> GetStudentsByParent(int? id) async {
     ApiReturnValue<List<Student>> result =
-        await ParentServices.getMyChildern(id);
+        await ParentServices.getMyChildern(id!);
     if (result.value != null) {
-      emit(StudentsLoaded(result.value));
+      emit(StudentsLoaded(result.value!));
     } else {
       emit(StudentLoadingFaield(result.message));
     }

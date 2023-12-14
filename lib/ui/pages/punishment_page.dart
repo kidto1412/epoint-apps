@@ -23,10 +23,10 @@ class _PunishmentPageState extends State<PunishmentPage> {
   // final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded
 
   List filteredViolations = [];
-  String selectedCategory;
-  String valPunishment;
-  String nip;
-  String form_of_foul_id;
+  String? selectedCategory;
+  String? valPunishment;
+  String? nip;
+  String? form_of_foul_id;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
     if (teacherState is TeacherLoaded) {
       final name = teacherState.teacher.name;
       final nip = teacherState.teacher.nip;
-      nipController.text = nip;
+      nipController.text = nip ?? '';
     }
   }
 
@@ -58,7 +58,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
   void getFilteredFouls() {
     final foulsState = context.read<FormViolationCubit>().state;
     if (foulsState is FormViolationLoaded) {
-      filteredViolations = foulsState.formv
+      filteredViolations = foulsState.formv!
           .where((violation) => violation.id == selectedCategory)
           .toList();
     }
@@ -76,8 +76,8 @@ class _PunishmentPageState extends State<PunishmentPage> {
         context.watch<FormViolationCubit>().state as FormViolationLoaded;
     final teacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return GeneralGradientPage(
-      title: 'Punishment',
-      subtitle: 'Add punishment for student',
+      title: 'Pelanggaran',
+      subtitle: 'Tambahkan Pelanggaran Untuk Siswa',
       onBackButtonPressed: () {
         Navigator.pop(context);
       },
@@ -107,35 +107,12 @@ class _PunishmentPageState extends State<PunishmentPage> {
               ),
             ),
           ),
+
           Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Description',
-              style: blackFontStyle2,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black)),
-            child: TextField(
-              controller: descriptionController,
-              obscureText: false,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: greyFontStyle,
-              ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
-            child: Text(
-              'Teacher NIP',
+              'NIP Guru',
               style: blackFontStyle2,
             ),
           ),
@@ -159,7 +136,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Time',
+              'Waktu',
               style: blackFontStyle2,
             ),
           ),
@@ -183,7 +160,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Date',
+              'Tanggal',
               style: blackFontStyle2,
             ),
           ),
@@ -202,7 +179,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
                   hintStyle: greyFontStyle,
                 ),
                 onTap: () async {
-                  DateTime pickedDate = await showDatePicker(
+                  DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(
@@ -268,7 +245,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              'Select Foul',
+              'Pilih Pelanggaran',
               style: blackFontStyle2,
             ),
           ),
@@ -281,11 +258,11 @@ class _PunishmentPageState extends State<PunishmentPage> {
                   color: Colors.white,
                   border: Border.all(color: greyColor, width: 2)),
               child: DropdownButton<String>(
-                  hint: Text("Select Punishment"),
+                  hint: Text("Pilih Pelanggaran"),
                   underline: Container(),
                   isExpanded: true,
                   value: valPunishment,
-                  items: fouls.formv.map((value) {
+                  items: fouls.formv!.map((value) {
                     return DropdownMenuItem<String>(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +270,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Text(
-                              value.name,
+                              value.name ?? '',
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -305,11 +282,35 @@ class _PunishmentPageState extends State<PunishmentPage> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      valPunishment = value;
-                      print("You selected: $valPunishment");
+                      valPunishment = value!;
+                      print("Pelanggaran : $valPunishment");
                     });
                   },
                   menuMaxHeight: 500)),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
+            child: Text(
+              'Deskripsi',
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black)),
+            child: TextField(
+              controller: descriptionController,
+              obscureText: false,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintStyle: greyFontStyle,
+              ),
+            ),
+          ),
           Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 24),
@@ -317,12 +318,12 @@ class _PunishmentPageState extends State<PunishmentPage> {
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
                   ? loadingIndicator
-                  : RaisedButton(
+                  : ElevatedButton(
                       onPressed: () async {
                         setState(() {
                           isLoading = true;
                         });
-                        await context.bloc<FoulCubit>().submitFoul(Foul(
+                        await context.read<FoulCubit>().submitFoul(Foul(
                             time: timeController.text,
                             date: dateController.text,
                             description: descriptionController.text,
@@ -330,9 +331,9 @@ class _PunishmentPageState extends State<PunishmentPage> {
                             teacher_nip: nipController.text,
                             form_of_foul_id: valPunishment));
 
-                        FoulState state = context.bloc<FoulCubit>().state;
+                        FoulState state = context.read<FoulCubit>().state;
                         // TeacherState stateTeacher =
-                        context.bloc<TeacherCubit>().state;
+                        context.read<TeacherCubit>().state;
                         if (state is FoulLoaded) {
                           Get.snackbar("", "",
                               backgroundColor: Colors.green,
@@ -351,10 +352,10 @@ class _PunishmentPageState extends State<PunishmentPage> {
                                 style: GoogleFonts.poppins(color: Colors.white),
                               ));
                           context
-                              .bloc<FormViolationCubit>()
+                              .read<FormViolationCubit>()
                               .getFormOfViolation();
-                          context.bloc<StudentCubit>().GetStudents();
-                          context.bloc<ClassRoomCubitCubit>().getClassRoom();
+                          context.read<StudentCubit>().GetStudents();
+                          context.read<ClassRoomCubitCubit>().getClassRoom();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -373,7 +374,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
                                     fontWeight: FontWeight.w600),
                               ),
                               messageText: Text(
-                                (state as FoulLoadingFaield).message,
+                                (state as FoulLoadingFaield).message ?? '',
                                 style: GoogleFonts.poppins(color: Colors.white),
                               ));
                           setState(() {
@@ -381,10 +382,6 @@ class _PunishmentPageState extends State<PunishmentPage> {
                           });
                         }
                       },
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      color: mainColor,
                       child: Text('Punishment',
                           style: GoogleFonts.poppins()
                               .copyWith(color: Colors.white)),

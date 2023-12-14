@@ -4,7 +4,7 @@ part of 'services.dart';
 
 class ParentServices {
   static Future<ApiReturnValue<Parent>> SignIn(String username, String password,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     if (client == null) {
       client = http.Client();
     }
@@ -30,7 +30,7 @@ class ParentServices {
   }
 
   static Future<ApiReturnValue<List<Student>>> getMyChildern(int id,
-      {http.Client client}) async {
+      {http.Client? client}) async {
     client ??= client = http.Client();
     print('id parent');
     print(id);

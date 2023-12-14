@@ -10,10 +10,10 @@ class FoulCategoryCubit extends Cubit<FoulCategoryState> {
   FoulCategoryCubit() : super(FoulCategoryInitial());
 
   Future<void> getFoulCategories() async {
-    ApiReturnValue<List<FoulCategory>> result =
+    ApiReturnValue<List<FoulCategory>>? result =
         await FoulCategoryService.getFoulCategory();
     if (result.value != null) {
-      List categories = result.value;
+      List<FoulCategory>? categories = result.value;
       emit(FoulCategoryLoaded(categories));
     } else {
       emit(FoulCategoryLoadingFailed(result.message));

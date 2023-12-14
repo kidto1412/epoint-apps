@@ -8,31 +8,31 @@ class VerificationPage extends StatefulWidget {
 }
 
 class _VerificationPageState extends State<VerificationPage> {
-  CameraController cameraController;
-  CameraImage cameraImage;
-  File _image;
-  Teacher teacher;
-  String nipTeacher;
+  CameraController? cameraController;
+  CameraImage? cameraImage;
+  File? _image;
+  Teacher? teacher;
+  String? nipTeacher;
   @override
   void initState() {
     super.initState();
     initializieCamera();
-    loadNip();
+    // loadNip();
   }
 
-  void loadNip() {
-    final teacherState = context.read<TeacherCubit>().state;
-    if (teacherState is TeacherLoaded) {
-      final name = teacherState.teacher.name;
-      final nip = teacherState.teacher.nip;
-      nipTeacher = nip;
-    }
-  }
+  // void loadNip() {
+  //   final teacherState = context.read<TeacherCubit>().state;
+  //   if (teacherState is TeacherLoaded) {
+  //     final name = teacherState.teacher.name;
+  //     final nip = teacherState.teacher.nip;
+  //     nipTeacher = nip;
+  //   }
+  // }
 
   initializieCamera() {
     WidgetsFlutterBinding.ensureInitialized();
-    cameraController = CameraController(cameras[0], ResolutionPreset.max);
-    cameraController.initialize().then((value) {
+    cameraController = CameraController(cameras![0], ResolutionPreset.medium);
+    cameraController!.initialize().then((value) {
       if (!mounted) {
         return;
       }
@@ -46,16 +46,16 @@ class _VerificationPageState extends State<VerificationPage> {
     await Directory(directoryPath).create(recursive: true);
     String filePath = '$directoryPath/${DateTime.now()}.jpg';
     try {
-      if (!cameraController.value.isInitialized) {
+      if (!cameraController!.value.isInitialized) {
         return null;
       }
-      if (cameraController.value.isTakingPicture) {
+      if (cameraController!.value.isTakingPicture) {
         return null;
       }
-      XFile file = await cameraController.takePicture();
+      XFile file = await cameraController!.takePicture();
       await file.saveTo(filePath);
       _image = File(filePath);
-      await sendImageToAPI(_image);
+      await sendImageToAPI(_image!);
     } catch (e) {
       return null;
     }
@@ -89,13 +89,21 @@ class _VerificationPageState extends State<VerificationPage> {
         Map<String, dynamic> jsonResponse = json.decode(responseData);
         String status = jsonResponse['result']['status'];
         String label = jsonResponse['result']['label'];
+        print('label : $label');
         print(status);
 
         if (status == 'success') {
-          if (nipTeacher == label) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PunishmentPage()));
-            print('image matched');
+          await context.read<TeacherCubit>().signInFace(label);
+          TeacherState state = context.read<TeacherCubit>().state;
+
+          if (state is TeacherLoaded) {
+            await context.read<FoulCategoryCubit>().getFoulCategories();
+            await context.read<FormViolationCubit>().getFormOfViolation();
+            await context.read<StudentCubit>().GetStudents();
+            await context.read<ClassRoomCubitCubit>().getClassRoom();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => MainPageTeacher()));
+
             Get.snackbar("", "",
                 backgroundColor: Colors.green,
                 icon: Icon(
@@ -108,7 +116,7 @@ class _VerificationPageState extends State<VerificationPage> {
                       color: Colors.white, fontWeight: FontWeight.w600),
                 ),
                 messageText: Text(
-                  'Punishment Added',
+                  'Login Success',
                   style: GoogleFonts.poppins(color: Colors.white),
                 ));
           } else {
@@ -128,6 +136,9 @@ class _VerificationPageState extends State<VerificationPage> {
                   style: GoogleFonts.poppins(color: Colors.white),
                 ));
           }
+          // if (nipTeacher == label) {
+          //   print('image matched');
+          // } else {}
           // print('Image uploaded successfully');
         } else {
           Get.snackbar("", "",
@@ -149,7 +160,6 @@ class _VerificationPageState extends State<VerificationPage> {
 
         // Berhasil mengirim gambar ke API
         // Lakukan sesuatu dengan respons API jika diperlukan
-
       } else {
         // Gagal mengirim gambar ke API
         print('Failed to upload image');
@@ -165,35 +175,38 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   void dispose() {
-    cameraController.dispose();
+    cameraController!.dispose();
     super.dispose();
   }
 
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    if (!cameraController.value.isInitialized) {
+    if (!cameraController!.value.isInitialized) {
       return loadingIndicator;
     }
     return GeneralGradientPage(
-        title: 'Verification',
+        title: 'Masuk',
         subtitle: '',
         onBackButtonPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MainPageTeacher()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SignInPage()));
         },
         child: Column(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width /
-                  cameraController.value.aspectRatio,
-              child: !cameraController.value.isInitialized
-                  ? Container()
-                  : AspectRatio(
-                      aspectRatio: cameraController.value.aspectRatio,
-                      child: CameraPreview(cameraController)),
-            ),
+            !cameraController!.value.isInitialized
+                ? Container()
+                : CameraPreview(cameraController!),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.width /
+            //       cameraController.value.aspectRatio,
+            //   child:
+            //       ? Container()
+            //       : AspectRatio(
+            //           aspectRatio: cameraController.value.aspectRatio,
+            //           child: CameraPreview(cameraController)),
+            // ),
             Container(
                 width: double.infinity,
                 margin: EdgeInsets.only(top: 24),
@@ -201,15 +214,11 @@ class _VerificationPageState extends State<VerificationPage> {
                 padding: EdgeInsets.symmetric(horizontal: defaultMargin),
                 child: isLoading
                     ? loadingIndicator
-                    : RaisedButton(
+                    : ElevatedButton(
                         onPressed: () async {
                           takePicture();
                         },
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        color: mainColor,
-                        child: Text('Veridication',
+                        child: Text('Sign In',
                             style: GoogleFonts.poppins()
                                 .copyWith(color: Colors.white)),
                       )),

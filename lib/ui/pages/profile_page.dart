@@ -6,15 +6,18 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<FoulStudent> fouls =
-        (context.bloc<StudentCubit>().state as StudentLoaded)
-            .student
-            .violations;
+        (context.watch<StudentCubit>().state as StudentLoaded)
+                .student
+                .violations
+                ?.cast<FoulStudent>() ??
+            [];
+
     return GeneralGradientPage(
-      title: 'Profile Page',
+      title: 'Profil Page',
       onBackButtonPressed: () {
         Navigator.pop(context);
       },
-      subtitle: 'this is your profile',
+      subtitle: 'Halaman profil',
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
@@ -40,9 +43,10 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 10),
             Center(
               child: Text(
-                (context.bloc<StudentCubit>().state as StudentLoaded)
-                    .student
-                    .name,
+                (context.watch<StudentCubit>().state as StudentLoaded)
+                        .student
+                        .name ??
+                    '',
                 style: TextStyle(
                     color: mainColor,
                     letterSpacing: 2,
@@ -59,7 +63,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 10),
             Center(
               child: Text(
-                (context.bloc<StudentCubit>().state as StudentLoaded)
+                (context.watch<StudentCubit>().state as StudentLoaded)
                     .student
                     .total_point
                     .toString(),
@@ -73,14 +77,10 @@ class ProfilePage extends StatelessWidget {
             Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () async {
                     Get.to(UpdateStudentProfile());
                   },
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  color: Colors.blue,
                   child: Text('Update Password',
                       style:
                           GoogleFonts.poppins().copyWith(color: Colors.white)),
@@ -98,9 +98,10 @@ class ProfilePage extends StatelessWidget {
                   width: 10,
                 ),
                 Text(
-                  (context.bloc<StudentCubit>().state as StudentLoaded)
-                      .student
-                      .nis,
+                  (context.watch<StudentCubit>().state as StudentLoaded)
+                          .student
+                          .nis ??
+                      "",
                   style: TextStyle(
                       color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
                 ),
@@ -109,23 +110,25 @@ class ProfilePage extends StatelessWidget {
             Row(
               children: <Widget>[
                 Icon(
-                  Icons.class__outlined,
+                  Icons.class_outlined,
                   color: Colors.grey[400],
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Text(
-                  (context.bloc<StudentCubit>().state as StudentLoaded)
-                      .student
-                      .major,
+                  (context.watch<StudentCubit>().state as StudentLoaded)
+                          .student
+                          .major ??
+                      '',
                   style: TextStyle(
                       color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
                 ),
                 Text(
-                  (context.bloc<StudentCubit>().state as StudentLoaded)
-                      .student
-                      .grade,
+                  (context.watch<StudentCubit>().state as StudentLoaded)
+                          .student
+                          .grade ??
+                      '',
                   style: TextStyle(
                       color: Colors.grey[400], fontSize: 18, letterSpacing: 1),
                 ),
@@ -139,7 +142,7 @@ class ProfilePage extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: fouls.length,
+              itemCount: fouls!.length,
               itemBuilder: (context, index) {
                 FoulStudent foul = fouls[index];
                 return Row(
@@ -151,7 +154,7 @@ class ProfilePage extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
                             width: 260,
-                            child: Text(foul.form_violation_name),
+                            child: Text(foul.form_violation_name ?? ''),
                           ),
                         ),
                       ],

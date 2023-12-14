@@ -2,8 +2,8 @@ part of 'pages.dart';
 
 class DetailStudent extends StatelessWidget {
   // const DetailStudent({ Key? key }) : super(key: key);
-  final Student student;
-  final List<Foul> fouls;
+  final Student? student;
+  final List<Foul>? fouls;
 
   DetailStudent({@required this.student, @required this.fouls});
 
@@ -24,7 +24,7 @@ class DetailStudent extends StatelessWidget {
                 /// -- IMAGE
                 Stack(
                   children: [
-                    if (student.profile_photo_path != null)
+                    if (student!.profile_photo_path != null)
                       SizedBox(
                         width: 60,
                         height: 60,
@@ -44,7 +44,7 @@ class DetailStudent extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (student.profile_photo_path == null)
+                    if (student!.profile_photo_path == null)
                       Container(
                         width: 50,
                         height: 50,
@@ -63,16 +63,16 @@ class DetailStudent extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(student.name, style: blackFontStyle1),
-                Text(student.nis, style: greyFontStyle),
-                Text(student.gender,
+                Text(student!.name ?? '', style: blackFontStyle1),
+                Text(student!.nis ?? "", style: greyFontStyle),
+                Text(student!.gender ?? '',
                     style: greyFontStyle.copyWith(fontSize: 16)),
-                Text(student.date_and_place_of_birth,
+                Text(student!.date_and_place_of_birth ?? '',
                     style: greyFontStyle.copyWith(fontSize: 16)),
-                Text(student.grade + ' ' + student.major,
+                Text((student!.grade ?? '') + ' ' + (student!.major ?? ''),
                     style: greyFontStyle.copyWith(fontSize: 16)),
                 Text(
-                  'Total Point:' + ' ' + student.total_point.toString(),
+                  'Total Point:' + ' ' + student!.total_point.toString(),
                   style: greyFontStyle.copyWith(fontSize: 16),
                 ),
 
@@ -84,9 +84,9 @@ class DetailStudent extends StatelessWidget {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: fouls.length,
+                  itemCount: fouls!.length,
                   itemBuilder: (context, index) {
-                    final foul = fouls[index];
+                    final foul = fouls![index];
                     return Row(
                       children: [
                         Column(
@@ -96,7 +96,7 @@ class DetailStudent extends StatelessWidget {
                               child: Container(
                                 margin: EdgeInsets.only(left: 10),
                                 width: 200,
-                                child: Text(foul.form.name),
+                                child: Text(foul.form!.name ?? ''),
                               ),
                             ),
                           ],
@@ -107,7 +107,7 @@ class DetailStudent extends StatelessWidget {
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              '${foul.form.point}',
+                              '${foul.form!.point}',
                               textAlign: TextAlign.right,
                             ),
                           )),

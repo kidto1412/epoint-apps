@@ -36,16 +36,17 @@ class HomePageTeacher extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                           Text(
-                              (context.bloc<TeacherCubit>().state
-                                      as TeacherLoaded)
-                                  .teacher
-                                  .name,
+                              (context.watch<TeacherCubit>().state
+                                          as TeacherLoaded)
+                                      .teacher
+                                      .name ??
+                                  "",
                               style: TextStyle(color: Colors.white)),
 
                           // Text(stateTeacher != null ? "$stateTeacher" : '')
                         ],
                       ),
-                      if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
+                      if ((context.watch<TeacherCubit>().state as TeacherLoaded)
                               .teacher
                               .profile_photo_path !=
                           null)
@@ -56,10 +57,10 @@ class HomePageTeacher extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<TeacherCubit>().state as TeacherLoaded).teacher.profile_photo_path}"),
+                                      "http://epoint-api.com/storage/${(context.watch<TeacherCubit>().state as TeacherLoaded).teacher.profile_photo_path}"),
                                   fit: BoxFit.cover)),
                         ),
-                      if ((context.bloc<TeacherCubit>().state as TeacherLoaded)
+                      if ((context.watch<TeacherCubit>().state as TeacherLoaded)
                               .teacher
                               .profile_photo_path ==
                           null)

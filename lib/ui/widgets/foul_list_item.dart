@@ -5,9 +5,9 @@ class FoulListItem extends StatelessWidget {
   final double itemWidth;
   final int itemNumber;
   FoulListItem(
-      {@required this.formviolation,
-      @required this.itemWidth,
-      @required this.itemNumber});
+      {required this.formviolation,
+      required this.itemWidth,
+      required this.itemNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,13 @@ class FoulListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                formviolation.category,
+                formviolation.category ?? '',
                 style: blackFontStyle2,
                 maxLines: 1,
                 overflow: TextOverflow.clip,
               ),
               Text(
-                formviolation.name,
+                formviolation.name ?? '',
                 style: greyFontStyle.copyWith(fontSize: 13),
               )
             ],

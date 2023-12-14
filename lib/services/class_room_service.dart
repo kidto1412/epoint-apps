@@ -2,7 +2,7 @@ part of 'services.dart';
 
 class ClassRommServices {
   static Future<ApiReturnValue<List<ClassRoom>>> getClassRooms(
-      {http.Client client}) async {
+      {http.Client? client}) async {
     client ??= client = http.Client();
     String url = baseUrl + 'class/point';
     var response = await client.get(Uri.parse(url));

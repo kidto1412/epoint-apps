@@ -14,7 +14,7 @@ class _StudentsPageState extends State<StudentsPage> {
         MediaQuery.of(context).size.width - 2 * defaultMargin;
 
     return GeneralGradientPage(
-      title: 'Students Page',
+      title: 'Halaman Siswa',
       onBackButtonPressed: () {
         Navigator.pop(context);
       },
@@ -35,7 +35,7 @@ class _StudentsPageState extends State<StudentsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'List Student',
+                      'Daftar Siswa',
                       style:
                           greyFontStyle.copyWith(fontWeight: FontWeight.w300),
                     )

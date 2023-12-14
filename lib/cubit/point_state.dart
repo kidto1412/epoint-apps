@@ -18,6 +18,9 @@ class PointLoaded extends PointState {
 }
 
 class PointLoadingFaield extends PointState {
-  final String message;
+  final String? message;
+
   PointLoadingFaield(this.message);
+  @override
+  List<Object> get props => [message ?? ''];
 }

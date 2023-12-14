@@ -3,7 +3,7 @@ part of 'widgets.dart';
 class CustomBottomBar extends StatelessWidget {
   // const CustombBar({ Key? key }) : super(key: key);
   final int selectedIndex;
-  final Function(int index) onTap;
+  final Function(int index)? onTap;
 
   CustomBottomBar({this.selectedIndex = 0, this.onTap});
 
@@ -20,7 +20,7 @@ class CustomBottomBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(0);
+                onTap!(0);
               }
             },
             child: Container(
@@ -34,7 +34,7 @@ class CustomBottomBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(1);
+                onTap!(1);
               }
             },
             child: Container(
@@ -48,7 +48,7 @@ class CustomBottomBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(2);
+                onTap!(2);
               }
             },
             child: Container(

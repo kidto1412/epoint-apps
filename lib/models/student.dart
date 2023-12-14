@@ -1,23 +1,23 @@
 part of 'models.dart';
 
 class Student extends Equatable {
-  final int id;
-  final String nis;
-  final String name;
-  final String password;
-  final String date_and_place_of_birth;
-  final String gender;
-  final String phoneNumber;
-  final String address;
-  final String profile_photo_path;
-  final int id_parent;
-  final String id_class_room;
-  static String token;
-  final int total_point;
-  final String major;
-  final String grade;
-  final List<dynamic> violations;
-  final List<Foul> fouls;
+  final int? id;
+  final String? nis;
+  final String? name;
+  final String? password;
+  final String? date_and_place_of_birth;
+  final String? gender;
+  final String? phoneNumber;
+  final String? address;
+  final String? profile_photo_path;
+  final int? id_parent;
+  final String? id_class_room;
+  static String? token;
+  final int? total_point;
+  final String? major;
+  final String? grade;
+  final List<FoulStudent>? violations;
+  final List<Foul>? fouls;
 
   Student({
     this.id,
@@ -76,20 +76,20 @@ class Student extends Equatable {
       );
 
   Student copyWith(
-          {int id,
-          String nis,
-          String name,
-          String password,
-          String date_and_place_of_birth,
-          String gender,
-          String phoneNumber,
-          String address,
-          String profile_photo_path,
-          int id_parent,
-          String id_class_room,
-          int total_point,
-          String major,
-          String grade}) =>
+          {int? id,
+          String? nis,
+          String? name,
+          String? password,
+          String? date_and_place_of_birth,
+          String? gender,
+          String? phoneNumber,
+          String? address,
+          String? profile_photo_path,
+          int? id_parent,
+          String? id_class_room,
+          int? total_point,
+          String? major,
+          String? grade}) =>
       Student(
           nis: nis ?? this.nis,
           name: name ?? this.name,
@@ -108,7 +108,7 @@ class Student extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         nis,
         name,

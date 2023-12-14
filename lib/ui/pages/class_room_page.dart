@@ -22,11 +22,11 @@ class ClassRoomPage extends StatelessWidget {
           child: BlocBuilder<ClassRoomCubitCubit, ClassRoomCubitState>(
             builder: (_, state) {
               if (state is ClassRoomLoaded) {
-                if (state.classRoom.isEmpty) {
+                if (state.classRoom!.isEmpty) {
                   loadingIndicator;
                 }
                 return Column(
-                  children: state.classRoom.asMap().entries.map((e) {
+                  children: state.classRoom!.asMap().entries.map((e) {
                     int index = e.key;
                     ClassRoom classRoom = e.value;
                     return Padding(

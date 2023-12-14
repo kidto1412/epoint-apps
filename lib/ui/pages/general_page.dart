@@ -1,11 +1,11 @@
 part of 'pages.dart';
 
 class GeneralPage extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Function onBackButtonPressed;
-  final Widget child;
-  final Color backColor;
+  final String? title;
+  final String? subtitle;
+  final Function? onBackButtonPressed;
+  final Widget? child;
+  final Color? backColor;
 
   GeneralPage(
       {this.title = "title",
@@ -48,7 +48,7 @@ class GeneralPage extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         if (onBackButtonPressed != null) {
-                                          onBackButtonPressed();
+                                          onBackButtonPressed!();
                                         }
                                       },
                                       icon: Icon(Icons.arrow_back)),
@@ -59,11 +59,11 @@ class GeneralPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                title,
+                                title ?? '',
                                 style: GoogleFonts.poppins(
                                     fontSize: 22, fontWeight: FontWeight.w500),
                               ),
-                              Text(subtitle,
+                              Text(subtitle ?? '',
                                   style: GoogleFonts.poppins(
                                       color: greyColor,
                                       fontWeight: FontWeight.w300)),

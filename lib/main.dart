@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 // import 'package:bloc/bloc.dart';
 
-List<CameraDescription> cameras;
+List<CameraDescription>? cameras;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

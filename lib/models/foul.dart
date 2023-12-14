@@ -1,13 +1,13 @@
 part of 'models.dart';
 
 class Foul extends Equatable {
-  final String time;
-  final String date;
-  final String description;
-  final String student_nis;
-  final String teacher_nip;
-  final String form_of_foul_id;
-  final FormOfViolation form;
+  final String? time;
+  final String? date;
+  final String? description;
+  final String? student_nis;
+  final String? teacher_nip;
+  final String? form_of_foul_id;
+  final FormOfViolation? form;
 
   Foul(
       {this.time,
@@ -31,12 +31,12 @@ class Foul extends Equatable {
       );
 
   Foul copyWith({
-    String time,
-    String date,
-    String description,
-    String student_nis,
-    String teacher_nip,
-    String form_of_foul_id,
+    String? time,
+    String? date,
+    String? description,
+    String? student_nis,
+    String? teacher_nip,
+    String? form_of_foul_id,
   }) =>
       Foul(
         time: time ?? this.time,
@@ -49,7 +49,7 @@ class Foul extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         time,
         date,
         description,

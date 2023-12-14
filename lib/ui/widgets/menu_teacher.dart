@@ -13,7 +13,7 @@ class MenuTeacher extends StatelessWidget {
             margin: EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
-                Get.to(VerificationPage());
+                Get.to(PunishmentPage());
               },
               splashColor: mainColor,
               child: Center(
@@ -29,7 +29,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Punisment',
+                      'Pelanggaran',
                       style: greyFontStyle,
                     )
                   ],
@@ -57,7 +57,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Class',
+                      'Kelas',
                       style: greyFontStyle,
                     )
                   ],
@@ -86,7 +86,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Rules',
+                      'Peraturan',
                       style: greyFontStyle,
                     )
                   ],
@@ -115,7 +115,7 @@ class MenuTeacher extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Students',
+                      'Siswa',
                       style: greyFontStyle,
                     )
                   ],

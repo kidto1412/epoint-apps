@@ -19,24 +19,24 @@ class TeacherLoaded extends TeacherState {
 }
 
 class UpdateTeacherLoaded extends TeacherState {
-  final Teacher teacher;
+  final Teacher? teacher;
   UpdateTeacherLoaded(this.teacher);
   @override
-  List<Object> get props => [teacher];
+  List<Object> get props => [teacher ?? []];
 }
 
 class TeacherLoadingFaield extends TeacherState {
-  final String message;
+  final String? message;
   TeacherLoadingFaield(this.message);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }
 
 class ProfilePictureUploaded extends TeacherState {
-  final Teacher teacher;
+  final Teacher? teacher;
 
   ProfilePictureUploaded(this.teacher);
 
   @override
-  List<Object> get props => [teacher];
+  List<Object> get props => [teacher ?? []];
 }

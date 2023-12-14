@@ -29,26 +29,26 @@ class StudentsLoaded extends StudentState {
 
 class PasswordStudentChangeLoaded extends StudentState {
   // final Student student;
-  final List<Student> students;
+  final List<Student>? students;
   PasswordStudentChangeLoaded(this.students);
   @override
-  List<Object> get props => [students];
+  List<Object> get props => [students ?? []];
 }
 
 class StudentLoadingFaield extends StudentState {
-  final String message;
+  final String? message;
 
   StudentLoadingFaield(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }
 
 class StudentsLoadingFaield extends StudentState {
-  final String message;
+  final String? message;
 
   StudentsLoadingFaield(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }

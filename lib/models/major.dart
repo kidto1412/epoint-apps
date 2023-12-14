@@ -1,8 +1,8 @@
 part of 'models.dart';
 
 class Major extends Equatable {
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
 
   Major({
     this.id,
@@ -14,7 +14,7 @@ class Major extends Equatable {
       );
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
       ];

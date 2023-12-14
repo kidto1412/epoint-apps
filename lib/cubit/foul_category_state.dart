@@ -10,19 +10,19 @@ abstract class FoulCategoryState extends Equatable {
 class FoulCategoryInitial extends FoulCategoryState {}
 
 class FoulCategoryLoaded extends FoulCategoryState {
-  final List<FoulCategory> foul_categories;
+  final List<FoulCategory>? foul_categories;
 
   FoulCategoryLoaded(this.foul_categories);
 
   @override
-  List<Object> get props => [foul_categories];
+  List<Object> get props => [foul_categories ?? ''];
 }
 
 class FoulCategoryLoadingFailed extends FoulCategoryState {
-  final String message;
+  final String? message;
 
   FoulCategoryLoadingFailed(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }

@@ -10,19 +10,19 @@ abstract class FormViolationState extends Equatable {
 class FormViolationInitial extends FormViolationState {}
 
 class FormViolationLoaded extends FormViolationState {
-  final List<FormOfViolation> formv;
+  final List<FormOfViolation>? formv;
 
   FormViolationLoaded(this.formv);
 
   @override
-  List<Object> get props => [formv];
+  List<Object> get props => [formv ?? []];
 }
 
 class FormViolationLoadingFailed extends FormViolationState {
-  final String message;
+  final String? message;
 
   FormViolationLoadingFailed(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ""];
 }

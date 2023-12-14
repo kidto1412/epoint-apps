@@ -18,8 +18,8 @@ class ParentLoaded extends ParentState {
 }
 
 class ParentLoadingFaield extends ParentState {
-  final String message;
+  final String? message;
   ParentLoadingFaield(this.message);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }

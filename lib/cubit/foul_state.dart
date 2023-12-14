@@ -10,16 +10,16 @@ abstract class FoulState extends Equatable {
 class FoulInitial extends FoulState {}
 
 class FoulLoaded extends FoulState {
-  final Foul foul;
+  final Foul? foul;
   FoulLoaded(this.foul);
 
   @override
-  List<Object> get props => [foul];
+  List<Object> get props => [foul ?? []];
 }
 
 class FoulLoadingFaield extends FoulState {
-  final String message;
+  final String? message;
   FoulLoadingFaield(this.message);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message ?? ''];
 }

@@ -3,7 +3,7 @@ part of 'widgets.dart';
 class CustomBottomBarTeacher extends StatelessWidget {
   // const CustombBar({ Key? key }) : super(key: key);
   final int selectedIndex;
-  final Function(int index) onTap;
+  final Function(int index)? onTap;
 
   CustomBottomBarTeacher({this.selectedIndex = 0, this.onTap});
 
@@ -22,7 +22,7 @@ class CustomBottomBarTeacher extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(0);
+                onTap!(0);
               }
             },
             child: Container(
@@ -36,8 +36,8 @@ class CustomBottomBarTeacher extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                if (_hasAccess(teacherPosition)) {
-                  onTap(1);
+                if (_hasAccess(teacherPosition ?? '')) {
+                  onTap!(1);
                 } else {
                   _showAccessSnackBar(context);
                 }
@@ -54,7 +54,7 @@ class CustomBottomBarTeacher extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onTap != null) {
-                onTap(2);
+                onTap!(2);
               }
             },
             child: Container(

@@ -36,16 +36,17 @@ class HomePageParent extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                           Text(
-                              (context.bloc<ParentCubit>().state
-                                      as ParentLoaded)
-                                  .parent
-                                  .name,
+                              (context.watch<ParentCubit>().state
+                                          as ParentLoaded)
+                                      .parent
+                                      .name ??
+                                  '',
                               style: TextStyle(color: Colors.white)),
 
                           // Text(stateTeacher != null ? "$stateTeacher" : '')
                         ],
                       ),
-                      if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                      if ((context.watch<ParentCubit>().state as ParentLoaded)
                               .parent
                               .profile_photo_path !=
                           null)
@@ -56,10 +57,10 @@ class HomePageParent extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<ParentCubit>().state as ParentLoaded).parent.profile_photo_path}"),
+                                      "http://epoint-api.com/storage/${(context.watch<ParentCubit>().state as ParentLoaded).parent.profile_photo_path}"),
                                   fit: BoxFit.cover)),
                         ),
-                      if ((context.bloc<ParentCubit>().state as ParentLoaded)
+                      if ((context.watch<ParentCubit>().state as ParentLoaded)
                               .parent
                               .profile_photo_path ==
                           null)

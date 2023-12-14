@@ -6,10 +6,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stateStudent = context.watch<StudentCubit>().state as StudentLoaded;
-    List<FoulStudent> fouls =
-        (context.bloc<StudentCubit>().state as StudentLoaded)
-            .student
-            .violations;
+    List<FoulStudent?> fouls =
+        (context.watch<StudentCubit>().state as StudentLoaded)
+                .student
+                .violations ??
+            [];
     // final stateTeacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return SafeArea(
       child: ListView(
@@ -40,15 +41,16 @@ class HomePage extends StatelessWidget {
                                   fontWeight: FontWeight.w300,
                                   color: Colors.white)),
                           Text(
-                            (context.bloc<StudentCubit>().state
-                                    as StudentLoaded)
-                                .student
-                                .name,
+                            (context.watch<StudentCubit>().state
+                                        as StudentLoaded)
+                                    .student
+                                    .name ??
+                                '',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
-                      if ((context.bloc<StudentCubit>().state as StudentLoaded)
+                      if ((context.watch<StudentCubit>().state as StudentLoaded)
                               .student
                               .profile_photo_path !=
                           null)
@@ -59,10 +61,10 @@ class HomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      "http://10.0.2.2/epoint-api/public/storage/${(context.bloc<StudentCubit>().state as StudentLoaded).student.profile_photo_path}"),
+                                      "http://epoint-api.com/storage/${(context.watch<StudentCubit>().state as StudentLoaded).student.profile_photo_path}"),
                                   fit: BoxFit.cover)),
                         ),
-                      if ((context.bloc<StudentCubit>().state as StudentLoaded)
+                      if ((context.watch<StudentCubit>().state as StudentLoaded)
                               .student
                               .profile_photo_path ==
                           null)

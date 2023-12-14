@@ -1,15 +1,15 @@
 part of 'models.dart';
 
 class Parent extends Equatable {
-  final int id;
-  final String name;
-  final String username;
-  final String password;
-  final String date_and_place_of_birth;
-  final String phoneNumber;
-  final String address;
-  final String profile_photo_path;
-  static String token;
+  final int? id;
+  final String? name;
+  final String? username;
+  final String? password;
+  final String? date_and_place_of_birth;
+  final String? phoneNumber;
+  final String? address;
+  final String? profile_photo_path;
+  static String? token;
   factory Parent.fromJson(Map<String, dynamic> data) => Parent(
       id: data['id'] as int,
       username: data['username'],
@@ -32,7 +32,7 @@ class Parent extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         username,
         name,

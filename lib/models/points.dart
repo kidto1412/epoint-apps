@@ -1,17 +1,17 @@
 part of 'models.dart';
 
 class Points extends Equatable {
-  final int id;
-  final String name;
-  final DateTime time;
-  final DateTime date;
-  final String description;
-  final Student student;
-  final Teacher teacher;
-  final Parent parent;
-  final String form_of_foul_id;
-  final String phoneNumber;
-  final String address;
+  final int? id;
+  final String? name;
+  final DateTime? time;
+  final DateTime? date;
+  final String? description;
+  final Student? student;
+  final Teacher? teacher;
+  final Parent? parent;
+  final String? form_of_foul_id;
+  final String? phoneNumber;
+  final String? address;
   // final String profile_photo_path;
   Points(
       {this.id,
@@ -28,7 +28,7 @@ class Points extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         name,
         time,

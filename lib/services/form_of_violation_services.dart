@@ -2,7 +2,7 @@ part of 'services.dart';
 
 class FormViloationService {
   static Future<ApiReturnValue<List<FormOfViolation>>> getFormOfViolation(
-      {http.Client client}) async {
+      {http.Client? client}) async {
     client ??= client = http.Client();
 
     String url = baseUrl + 'form-of-foul';

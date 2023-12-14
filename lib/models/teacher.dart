@@ -1,17 +1,17 @@
 part of 'models.dart';
 
 class Teacher extends Equatable {
-  final int id;
-  final String nip;
-  final String password;
-  final String name;
-  final String position;
-  final String gender;
-  final String phoneNumber;
-  final String date_and_place_of_birth;
-  final String address;
-  final String profile_photo_path;
-  static String token;
+  final int? id;
+  final String? nip;
+  final String? password;
+  final String? name;
+  final String? position;
+  final String? gender;
+  final String? phoneNumber;
+  final String? date_and_place_of_birth;
+  final String? address;
+  final String? profile_photo_path;
+  static String? token;
 
   Teacher({
     this.id,
@@ -39,16 +39,16 @@ class Teacher extends Equatable {
       profile_photo_path: data['profile_photo_path']);
 
   Teacher copyWith({
-    int id,
-    String nip,
-    String password,
-    String name,
-    String position,
-    String gender,
-    String phoneNumber,
-    String date_and_place_of_birth,
-    String address,
-    String profile_photo_path,
+    int? id,
+    String? nip,
+    String? password,
+    String? name,
+    String? position,
+    String? gender,
+    String? phoneNumber,
+    String? date_and_place_of_birth,
+    String? address,
+    String? profile_photo_path,
   }) =>
       Teacher(
           id: id ?? this.id,
@@ -66,7 +66,7 @@ class Teacher extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         nip,
         password,

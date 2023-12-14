@@ -34,7 +34,7 @@ class _MainPageTeacherState extends State<MainPageTeacher> {
                 child: HomePageTeacher(),
               ),
               Center(
-                child: VerificationPage(),
+                child: PunishmentPage(),
               ),
               Center(
                 child: ProfileTeacherPage(),

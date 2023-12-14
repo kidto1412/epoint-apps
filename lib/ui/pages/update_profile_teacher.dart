@@ -97,7 +97,7 @@ class _UpdateProfileTeacherState extends State<UpdateProfileTeacher> {
             margin: EdgeInsets.only(top: 24),
             height: 45,
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () async {
                 setState(() {
                   isLoading = true;
@@ -162,10 +162,6 @@ class _UpdateProfileTeacherState extends State<UpdateProfileTeacher> {
                   isLoading = false;
                 });
               },
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              color: mainColor,
               child: Text(
                 'Update Password',
                 style: GoogleFonts.poppins(

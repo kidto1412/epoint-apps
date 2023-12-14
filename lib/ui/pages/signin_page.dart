@@ -28,8 +28,8 @@ class _SignInPageState extends State<SignInPage> {
     }
 
     return GeneralPage(
-      title: 'Sign In',
-      subtitle: 'welcome to aplikasi e-point SMK DB',
+      title: 'Halaman Masuk',
+      subtitle: 'Selamat Datang di e-point SMK DB',
       child: Column(
         children: [
           Container(
@@ -61,10 +61,10 @@ class _SignInPageState extends State<SignInPage> {
                 border: InputBorder.none,
                 hintStyle: greyFontStyle,
                 hintText: _selectedUserType == UserType.student
-                    ? 'Enter your NIS'
+                    ? 'Masukan  NIS'
                     : _selectedUserType == UserType.teacher
-                        ? 'Enter your NIP'
-                        : 'Enter your Username',
+                        ? 'Masukan NIP'
+                        : 'Masukan Username',
               ),
             ),
           ),
@@ -89,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintStyle: greyFontStyle,
-                hintText: 'Enter your Password',
+                hintText: 'Masukan Password',
               ),
             ),
           ),
@@ -102,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Select login as:',
+                  'Masuk Sebagai:',
                   textAlign: TextAlign.left,
                 )),
           ),
@@ -112,9 +112,9 @@ class _SignInPageState extends State<SignInPage> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: DropdownButtonFormField<UserType>(
               value: _selectedUserType,
-              onChanged: (UserType value) {
+              onChanged: (UserType? value) {
                 setState(() {
-                  _selectedUserType = value;
+                  _selectedUserType = value!;
                 });
               },
               items: UserType.values.map((UserType userType) {
@@ -125,6 +125,23 @@ class _SignInPageState extends State<SignInPage> {
               }).toList(),
             ),
           ),
+          _selectedUserType == UserType.teacher
+              ? Align(
+                  alignment: Alignment.bottomLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VerificationPage()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 26.0, top: 24.0),
+                      child: Text('Login Dengan Wajah'),
+                    ),
+                  ),
+                )
+              : SizedBox(),
           Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 24),
@@ -132,26 +149,32 @@ class _SignInPageState extends State<SignInPage> {
               padding: EdgeInsets.symmetric(horizontal: defaultMargin),
               child: isLoading
                   ? loadingIndicator
-                  : RaisedButton(
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue),
                       onPressed: () async {
                         setState(() {
                           isLoading = true;
                         });
                         // panggil metod bloc
                         if (_selectedUserType == UserType.student) {
-                          await context.bloc<StudentCubit>().signIn(
+                          await context.read<StudentCubit>().signIn(
                               nisController.text, passwordController.text);
                           // jika sign in berhasil ambil state saat ini
                           StudentState state =
-                              context.bloc<StudentCubit>().state;
+                              context.read<StudentCubit>().state;
                           if (state is StudentLoaded) {
                             // Panggil Data Point
                             context
-                                .bloc<FormViolationCubit>()
+                                .read<FormViolationCubit>()
                                 .getFormOfViolation();
 
-                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
-                            Get.to(MainPage());
+                            context.read<ClassRoomCubitCubit>().getClassRoom();
+                            // Get.to(MainPage());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage()));
                           } else {
                             setState(() {
                               Get.snackbar("", "",
@@ -167,7 +190,8 @@ class _SignInPageState extends State<SignInPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   messageText: Text(
-                                    (state as StudentLoadingFaield).message,
+                                    (state as StudentLoadingFaield).message ??
+                                        "",
                                     style: GoogleFonts.poppins(
                                         color: Colors.white),
                                   ));
@@ -176,23 +200,27 @@ class _SignInPageState extends State<SignInPage> {
                             });
                           }
                         } else if (_selectedUserType == UserType.teacher) {
-                          await context.bloc<TeacherCubit>().signIn(
+                          await context.read<TeacherCubit>().signIn(
                               nipController.text, passwordController.text);
                           TeacherState state =
-                              context.bloc<TeacherCubit>().state;
+                              context.read<TeacherCubit>().state;
 
                           if (state is TeacherLoaded) {
                             context
-                                .bloc<FoulCategoryCubit>()
+                                .read<FoulCategoryCubit>()
                                 .getFoulCategories();
 
                             context
-                                .bloc<FormViolationCubit>()
+                                .read<FormViolationCubit>()
                                 .getFormOfViolation();
 
-                            context.bloc<StudentCubit>().GetStudents();
-                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
-                            Get.to(MainPageTeacher());
+                            context.read<StudentCubit>().GetStudents();
+                            context.read<ClassRoomCubitCubit>().getClassRoom();
+                            // Get.to(MainPageTeacher());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPageTeacher()));
                           } else {
                             setState(() {
                               Get.snackbar("", "",
@@ -208,7 +236,8 @@ class _SignInPageState extends State<SignInPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   messageText: Text(
-                                    (state as TeacherLoadingFaield).message,
+                                    (state as TeacherLoadingFaield).message ??
+                                        '',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white),
                                   ));
@@ -217,23 +246,27 @@ class _SignInPageState extends State<SignInPage> {
                             });
                           }
                         } else if (_selectedUserType == UserType.parent) {
-                          await context.bloc<ParentCubit>().signIn(
+                          await context.read<ParentCubit>().signIn(
                               usernameController.text, passwordController.text);
-                          ParentState state = context.bloc<ParentCubit>().state;
+                          ParentState state = context.read<ParentCubit>().state;
                           if (state is ParentLoaded) {
                             context
-                                .bloc<FoulCategoryCubit>()
+                                .read<FoulCategoryCubit>()
                                 .getFoulCategories();
 
                             context
-                                .bloc<FormViolationCubit>()
+                                .read<FormViolationCubit>()
                                 .getFormOfViolation();
 
                             context
-                                .bloc<StudentCubit>()
+                                .read<StudentCubit>()
                                 .GetStudentsByParent(state.parent.id);
-                            context.bloc<ClassRoomCubitCubit>().getClassRoom();
-                            Get.to(MainPageParent());
+                            context.read<ClassRoomCubitCubit>().getClassRoom();
+                            // Get.to(MainPageParent());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainPageParent()));
                           } else {
                             setState(() {
                               Get.snackbar("", "",
@@ -249,7 +282,8 @@ class _SignInPageState extends State<SignInPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   messageText: Text(
-                                    (state as ParentLoadingFaield).message,
+                                    (state as ParentLoadingFaield).message ??
+                                        '',
                                     style: GoogleFonts.poppins(
                                         color: Colors.white),
                                   ));
@@ -259,11 +293,7 @@ class _SignInPageState extends State<SignInPage> {
                           }
                         }
                       },
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      color: mainColor,
-                      child: Text('Sign In',
+                      child: Text('Masuk',
                           style: GoogleFonts.poppins()
                               .copyWith(color: Colors.white)),
                     )),
