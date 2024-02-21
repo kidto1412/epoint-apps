@@ -70,6 +70,8 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue),
                       onPressed: () async {
                         Get.to(UpdateProfileTeacher());
                       },
@@ -157,12 +159,13 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
             width: double.infinity,
             padding: EdgeInsets.all(16),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () async {
                 var apiResult =
                     await TeacherServices.logout(Teacher.token ?? "");
                 if (apiResult.value == true) {
                   // Jika logout berhasil, lakukan navigasi ke halaman login
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => SignInPage()));
                 } else {
                   // Jika logout gagal, tampilkan pesan error
@@ -173,6 +176,8 @@ class _ProfileParentPageState extends State<ProfileParentPage> {
                       content: Text(apiResult.message ?? ""),
                       actions: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue),
                           onPressed: () {
                             Navigator.pop(context);
                           },

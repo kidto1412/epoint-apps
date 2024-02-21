@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http_parser/http_parser.dart';
 
 // import 'package:e_point/cubit/form_violation_cubit.dart';
 import 'package:e_point/models/models.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 // part 'user_services.dart';
 part 'parent_services.dart';
 part 'student_services.dart';
@@ -16,9 +19,9 @@ part 'foul_category_services.dart';
 part 'foul_services.dart';
 part 'class_room_service.dart';
 
-String baseUrl = "http://epoint-api.com/api/";
-// String baseUrl = "http://192.168.1.7/epoint-api/public/api/";
-
+// String baseUrl = "http://epoint-api.com/api/";
+String baseUrl = "http://192.168.1.6/epoint-api/public/api/";
+// String baseUrl = "http://epoint-api.test/api/";
 
 // http://l
 // String baseUrl =

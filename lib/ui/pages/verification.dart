@@ -215,6 +215,8 @@ class _VerificationPageState extends State<VerificationPage> {
                 child: isLoading
                     ? loadingIndicator
                     : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue),
                         onPressed: () async {
                           takePicture();
                         },

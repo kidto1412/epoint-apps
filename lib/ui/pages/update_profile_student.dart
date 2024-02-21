@@ -100,6 +100,7 @@ class _UpdateStudentProfileState extends State<UpdateStudentProfile> {
             height: 45,
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
               onPressed: () async {
                 setState(() {
                   isLoading = true;
@@ -138,7 +139,7 @@ class _UpdateStudentProfileState extends State<UpdateStudentProfile> {
                       style: GoogleFonts.poppins(color: Colors.white),
                     ),
                   );
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => SignInPage(),

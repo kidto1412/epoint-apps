@@ -78,6 +78,7 @@ class ProfilePage extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   onPressed: () async {
                     Get.to(UpdateStudentProfile());
                   },
@@ -155,6 +156,15 @@ class ProfilePage extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             width: 260,
                             child: Text(foul.form_violation_name ?? ''),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            width: 260,
+                            child: Text(
+                                'Guru pencatat: ${foul.teacher_name ?? ''}'),
                           ),
                         ),
                       ],

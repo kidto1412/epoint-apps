@@ -99,6 +99,15 @@ class DetailStudent extends StatelessWidget {
                                 child: Text(foul.form!.name ?? ''),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                width: 200,
+                                child: Text(
+                                    'Guru pencatat: ${foul.teacher!.name ?? ''}'),
+                              ),
+                            ),
                           ],
                         ),
                         Spacer(),

@@ -9,6 +9,7 @@ class FoulStudent extends Equatable {
   final int? point;
 
   final String? teacher_nip;
+  final String? teacher_name;
 
   FoulStudent(
       {this.id,
@@ -17,7 +18,8 @@ class FoulStudent extends Equatable {
       this.description,
       this.form_violation_name,
       this.point,
-      this.teacher_nip});
+      this.teacher_nip,
+      this.teacher_name});
 
   factory FoulStudent.fromJson(Map<String, dynamic> data) => FoulStudent(
         id: data['id'],
@@ -27,6 +29,7 @@ class FoulStudent extends Equatable {
         form_violation_name: data['form_violation_name'],
         point: data['point'],
         teacher_nip: data['teacher_nip'],
+        teacher_name: data['teacher_name'],
       );
 
   @override
@@ -39,5 +42,6 @@ class FoulStudent extends Equatable {
         form_violation_name,
         point,
         teacher_nip,
+        teacher_name
       ];
 }

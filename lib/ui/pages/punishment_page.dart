@@ -17,6 +17,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
   TextEditingController timeController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController nipController = TextEditingController();
+  File? selectedImage;
 
   //  final categories = context.watch<FoulCategoryCubit>().state as FoulCategoryLoaded;
 
@@ -68,6 +69,18 @@ class _PunishmentPageState extends State<PunishmentPage> {
     context.read<FormViolationCubit>().getFormOfViolation();
   }
 
+  // send image
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final categories =
@@ -77,7 +90,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
     final teacher = context.watch<TeacherCubit>().state as TeacherLoaded;
     return GeneralGradientPage(
       title: 'Pelanggaran',
-      subtitle: 'Tambahkan Pelanggaran Untuk Siswa',
+      subtitle: 'Tambahkan Pelanggaran',
       onBackButtonPressed: () {
         Navigator.pop(context);
       },
@@ -268,7 +281,7 @@ class _PunishmentPageState extends State<PunishmentPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.all(1.0),
                             child: Text(
                               value.name ?? '',
                               overflow: TextOverflow.ellipsis,
@@ -312,6 +325,32 @@ class _PunishmentPageState extends State<PunishmentPage> {
             ),
           ),
           Container(
+            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 0),
+            child: Text(
+              'Bukti Pelanggaran',
+              style: blackFontStyle2,
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 24.0),
+            child: GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                width: double.infinity,
+                height: 250,
+                margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: selectedImage != null
+                    ? Image.file(selectedImage!, fit: BoxFit.cover)
+                    : Icon(Icons.add_a_photo),
+              ),
+            ),
+          ),
+          Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 24),
               height: 45,
@@ -319,17 +358,22 @@ class _PunishmentPageState extends State<PunishmentPage> {
               child: isLoading
                   ? loadingIndicator
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue),
                       onPressed: () async {
                         setState(() {
                           isLoading = true;
                         });
+
                         await context.read<FoulCubit>().submitFoul(Foul(
                             time: timeController.text,
                             date: dateController.text,
                             description: descriptionController.text,
                             student_nis: nisController.text,
                             teacher_nip: nipController.text,
-                            form_of_foul_id: valPunishment));
+                            form_of_foul_id: valPunishment,
+                            status: 'SUBMITTED',
+                            photo: selectedImage));
 
                         FoulState state = context.read<FoulCubit>().state;
                         // TeacherState stateTeacher =
