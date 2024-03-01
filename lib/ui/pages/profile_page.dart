@@ -193,7 +193,7 @@ class ProfilePage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                 onPressed: () async {
                   var apiResult =
-                      await TeacherServices.logout(Student.token ?? '');
+                      await StudentServices.logout(Student.token ?? '');
                   if (apiResult.value == true) {
                     // Jika logout berhasil, lakukan navigasi ke halaman login
                     Navigator.pushReplacement(context,

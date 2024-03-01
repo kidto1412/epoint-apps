@@ -41,6 +41,33 @@ class StudentServices {
     }
   }
 
+  static Future<ApiReturnValue<bool>> logout(String token,
+      {http.Client? client}) async {
+    if (client == null) {
+      client = http.Client();
+    }
+
+    String url = baseUrl + 'logout/student';
+    var response = await client.post(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      return ApiReturnValue<bool>(message: 'Please try again');
+    }
+
+    var data = jsonDecode(response.body);
+    bool isTokenRevoked = data['data'];
+    String message = data['meta']['message'];
+    Teacher.token = null;
+
+    return ApiReturnValue<bool>(value: isTokenRevoked, message: message);
+  }
+
   static Future<ApiReturnValue> changePasswordStudent(
       String currentPassword, String newPassword, String PasswordConfirmation,
       {http.Client? client}) async {
