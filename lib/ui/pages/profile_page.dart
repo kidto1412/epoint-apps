@@ -177,6 +177,7 @@ class ProfilePage extends StatelessWidget {
                     ))
                   ],
                 );
+
                 // return ListTile(
                 //   title: Text(
                 //       foul.form_violation_name), // Menampilkan nama pelanggaran
@@ -184,7 +185,45 @@ class ProfilePage extends StatelessWidget {
                 // );
               },
             ),
-            SizedBox(height: 50)
+            SizedBox(height: 50),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: () async {
+                  var apiResult =
+                      await TeacherServices.logout(Student.token ?? '');
+                  if (apiResult.value == true) {
+                    // Jika logout berhasil, lakukan navigasi ke halaman login
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => SignInPage()));
+                  } else {
+                    // Jika logout gagal, tampilkan pesan error
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Logout Error'),
+                        content: Text(apiResult.message ?? ''),
+                        actions: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+                child: Text('Logout',
+                    style: GoogleFonts.poppins().copyWith(color: Colors.white)),
+              ),
+            ),
+            SizedBox(height: 100)
           ],
         ),
       ),
