@@ -13,7 +13,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController nipController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  UserType _selectedUserType = UserType.student;
+  UserType _selectedUserType = UserType.Siswa;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class _SignInPageState extends State<SignInPage> {
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(defaultMargin, 26, defaultMargin, 6),
             child: Text(
-              _selectedUserType == UserType.student
+              _selectedUserType == UserType.Siswa
                   ? 'NIS'
-                  : _selectedUserType == UserType.teacher
+                  : _selectedUserType == UserType.Guru
                       ? 'NIP'
                       : 'Username',
               style: blackFontStyle2,
@@ -52,17 +52,17 @@ class _SignInPageState extends State<SignInPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.black)),
             child: TextField(
-              controller: _selectedUserType == UserType.student
+              controller: _selectedUserType == UserType.Siswa
                   ? nisController
-                  : _selectedUserType == UserType.teacher
+                  : _selectedUserType == UserType.Guru
                       ? nipController
                       : usernameController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintStyle: greyFontStyle,
-                hintText: _selectedUserType == UserType.student
+                hintText: _selectedUserType == UserType.Siswa
                     ? 'Masukan  NIS'
-                    : _selectedUserType == UserType.teacher
+                    : _selectedUserType == UserType.Guru
                         ? 'Masukan NIP'
                         : 'Masukan Username',
               ),
@@ -125,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
               }).toList(),
             ),
           ),
-          _selectedUserType == UserType.teacher
+          _selectedUserType == UserType.Guru
               ? Align(
                   alignment: Alignment.bottomLeft,
                   child: GestureDetector(
@@ -157,7 +157,7 @@ class _SignInPageState extends State<SignInPage> {
                           isLoading = true;
                         });
                         // panggil metod bloc
-                        if (_selectedUserType == UserType.student) {
+                        if (_selectedUserType == UserType.Siswa) {
                           await context.read<StudentCubit>().signIn(
                               nisController.text, passwordController.text);
                           // jika sign in berhasil ambil state saat ini
@@ -199,7 +199,7 @@ class _SignInPageState extends State<SignInPage> {
                               isLoading = false;
                             });
                           }
-                        } else if (_selectedUserType == UserType.teacher) {
+                        } else if (_selectedUserType == UserType.Guru) {
                           await context.read<TeacherCubit>().signIn(
                               nipController.text, passwordController.text);
                           TeacherState state =
@@ -257,4 +257,4 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-enum UserType { teacher, student }
+enum UserType { Guru, Siswa }
