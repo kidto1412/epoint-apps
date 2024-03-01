@@ -245,52 +245,6 @@ class _SignInPageState extends State<SignInPage> {
                               isLoading = false;
                             });
                           }
-                        } else if (_selectedUserType == UserType.parent) {
-                          await context.read<ParentCubit>().signIn(
-                              usernameController.text, passwordController.text);
-                          ParentState state = context.read<ParentCubit>().state;
-                          if (state is ParentLoaded) {
-                            context
-                                .read<FoulCategoryCubit>()
-                                .getFoulCategories();
-
-                            context
-                                .read<FormViolationCubit>()
-                                .getFormOfViolation();
-
-                            context
-                                .read<StudentCubit>()
-                                .GetStudentsByParent(state.parent.id);
-                            context.read<ClassRoomCubitCubit>().getClassRoom();
-                            // Get.to(MainPageParent());
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MainPageParent()));
-                          } else {
-                            setState(() {
-                              Get.snackbar("", "",
-                                  backgroundColor: "D9435E".toColor(),
-                                  icon: Icon(
-                                    MdiIcons.closeCircleOutline,
-                                    color: Colors.white,
-                                  ),
-                                  titleText: Text(
-                                    'Sign In Failed',
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  messageText: Text(
-                                    (state as ParentLoadingFaield).message ??
-                                        '',
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white),
-                                  ));
-
-                              isLoading = false;
-                            });
-                          }
                         }
                       },
                       child: Text('Masuk',
@@ -303,8 +257,4 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-enum UserType {
-  teacher,
-  student,
-  parent,
-}
+enum UserType { teacher, student }

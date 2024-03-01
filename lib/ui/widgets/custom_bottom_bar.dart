@@ -27,7 +27,7 @@ class CustomBottomBar extends StatelessWidget {
                 width: 40,
                 height: 40,
                 child: Icon(
-                  Icons.more_vert_outlined,
+                  Icons.home,
                   color: selectedIndex == 0 ? mainColor : Colors.grey,
                 )),
           ),
@@ -41,22 +41,8 @@ class CustomBottomBar extends StatelessWidget {
                 width: 40,
                 height: 40,
                 child: Icon(
-                  Icons.camera,
-                  color: selectedIndex == 1 ? mainColor : Colors.grey,
-                )),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (onTap != null) {
-                onTap!(2);
-              }
-            },
-            child: Container(
-                width: 40,
-                height: 40,
-                child: Icon(
                   Icons.person_rounded,
-                  color: selectedIndex == 2 ? mainColor : Colors.grey,
+                  color: selectedIndex == 1 ? mainColor : Colors.grey,
                 )),
           ),
         ],

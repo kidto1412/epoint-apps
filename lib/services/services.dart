@@ -19,8 +19,8 @@ part 'foul_category_services.dart';
 part 'foul_services.dart';
 part 'class_room_service.dart';
 
-// String baseUrl = "http://epoint-api.com/api/";
-String baseUrl = "http://192.168.1.6/epoint-api/public/api/";
+String baseUrl = "http://epoint-api.com/api/";
+// String baseUrl = "http://192.168.1.6/epoint-api/public/api/";
 // String baseUrl = "http://epoint-api.test/api/";
 
 // http://l
