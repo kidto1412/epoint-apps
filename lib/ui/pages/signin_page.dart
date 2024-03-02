@@ -29,7 +29,7 @@ class _SignInPageState extends State<SignInPage> {
 
     return GeneralPage(
       title: 'Halaman Masuk',
-      subtitle: 'Selamat Datang di e-point SMK DB',
+      subtitle: 'Selamat Datang di e-point',
       child: Column(
         children: [
           Container(
